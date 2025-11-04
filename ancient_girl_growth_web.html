@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>古风养成原型</title>
+<style>
+  body { font-family: 'KaiTi', serif; background: #f5f0e6; color: #4b3b2a; display: flex; justify-content: center; padding: 20px; }
+  .container { display: flex; gap: 40px; }
+  .left { width: 300px; }
+  .left img { width: 100%; border-radius: 10px; }
+  .right { width: 400px; }
+  .attribute { margin: 10px 0; }
+  .attribute span { font-weight: bold; }
+  button { margin: 5px; padding: 5px 10px; border-radius: 5px; border: 1px solid #4b3b2a; background: #fdf6e3; cursor: pointer; }
+  button:hover { background: #eee6d8; }
+  #log { margin-top: 20px; padding: 10px; background: #fff8eb; border: 1px solid #d8cbb3; border-radius: 5px; max-height: 200px; overflow-y: auto; }
+  input[type=text] { width: 80%; padding: 5px; border-radius: 5px; border: 1px solid #4b3b2a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="left">
+    <img src="https://i.imgur.com/6rX9K1t.png" alt="古风女性立绘">
+  </div>
+  <div class="right">
+    <h2>属性</h2>
+    <div class="attribute">健康: <span id="health">0</span></div>
+    <div class="attribute">体力: <span id="stamina">0</span></div>
+    <div class="attribute">整洁: <span id="tidiness">0</span></div>
+    <div class="attribute">定力: <span id="will">0</span></div>
+    <div class="attribute">心性: <span id="mind">0</span></div>
+    <div class="attribute">悟性: <span id="wisdom">0</span></div>
+    <div class="attribute">体重(kg): <span id="weight">55</span></div>
+    <div class="attribute">等级: <span id="level">婉女</span></div>
+
+    <h3>行为</h3>
+    <button onclick="performAction('学习')">学习</button>
+    <button onclick="performAction('运动')">运动</button>
+    <button onclick="performAction('打扫')">打扫</button>
+    <button onclick="performAction('做饭')">做饭</button>
+    <button onclick="performAction('化妆')">化妆</button>
+
+    <h3>自定义任务</h3>
+    <input type="text" id="customTask" placeholder="输入完成的任务，例如学习针灸30分钟">
+    <button onclick="performCustomTask()">提交</button>
+
+    <div id="log"></div>
+  </div>
+</div>
+
+<script>
+let attributes = {health:0, stamina:0, tidiness:0, will:0, mind:0, wisdom:0, weight:55};
+const logs = document.getElementById('log');
+const levelNames = ['婉女','才女','知女','佳人','大成'];
+
+const tips = {
+  health: ['晨光拂面，你舒展筋骨，气息平和，健康＋1。','素食一餐，清茶入喉，精力渐满，健康＋1。','庭前行步，血脉通畅，神色轻盈，健康＋1。','夜深难眠，精神疲惫，健康下降。','随意用膳，油腻难消，健康下降。'],
+  stamina: ['你步履轻盈，四肢舒展，体力＋1。','搬动案几，力气渐生，体力＋1。','扫庭落叶，手脚有劲，体力＋1。','久坐不起，四肢沉重，体力下降。','懒散一日，肢体困顿，体力下降。'],
+  tidiness: ['案几尘埃尽，你拂去浮华，整洁＋1。','衣帛折叠整齐，屋宇明净，整洁＋1。','扫除庭院，落叶无踪，整洁＋1。','屋内杂物堆积，屋宇凌乱，整洁下降。'],
+  will: ['你翻卷沉思，心无旁骛，定力＋1。','静坐温书，专心致志，定力＋1。','一盏茶间，心念如一，定力＋1。','心浮意乱，凡事难成，定力下降。','你沉迷闲玩，心性微乱，定力下降。'],
+  mind: ['你静坐片刻，心海如镜，心性＋1。','翻卷古籍，心神澄明，心性＋1。','观花听雨，思绪安然，心性＋1。','烦忧扰心，心性下降。','沉迷闲事，心性轻微下降。'],
+  wisdom: ['你翻卷沉思，忽有所悟，悟性＋1。','书中玄机渐显，心有所领，悟性＋1。','细察日常，洞见一理，悟性＋1。','散漫无思，悟性下降。','沉迷游戏，悟性下降。']
+};
+
+function randomTip(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function updateDisplay(){
+  document.getElementById('health').innerText = Math.round(attributes.health*10)/10;
+  document.getElementById('stamina').innerText = Math.round(attributes.stamina*10)/10;
+  document.getElementById('tidiness').innerText = Math.round(attributes.tidiness*10)/10;
+  document.getElementById('will').innerText = Math.round(attributes.will*10)/10;
+  document.getElementById('mind').innerText = Math.round(attributes.mind*10)/10;
+  document.getElementById('wisdom').innerText = Math.round(attributes.wisdom*10)/10;
+  document.getElementById('weight').innerText = Math.round(attributes.weight*10)/10;
+  updateLevel();
+}
+function logTip(text){ const p=document.createElement('p'); p.innerText=text; logs.prepend(p); }
+
+function parseTime(task){
+  let timeMatch = task.match(/(\d+)\s*(分钟|小时)/);
+  if(!timeMatch) return 1;
+  let num = parseInt(timeMatch[1]);
+  let unit = timeMatch[2];
+  if(unit==='小时') num*=60;
+  return Math.max(num/30,0.5);
+}
+
+function performAction(action,multiplier=1){
+  switch(action){
+    case '学习': attributes.wisdom+=1*multiplier; attributes.will+=1*multiplier; logTip(randomTip(tips.wisdom)); logTip(randomTip(tips.will)); break;
+    case '运动': attributes.health+=1*multiplier; attributes.stamina+=1*multiplier; attributes.weight-=0.1*multiplier; logTip(randomTip(tips.health)); logTip(randomTip(tips.stamina)); break;
+    case '打扫': attributes.tidiness+=1*multiplier; attributes.stamina+=1*multiplier; logTip(randomTip(tips.tidiness)); logTip(randomTip(tips.stamina)); break;
+    case '做饭': attributes.health+=1*multiplier; attributes.tidiness+=1*multiplier; attributes.will+=1*multiplier; logTip(randomTip(tips.health)); logTip(randomTip(tips.tidiness)); logTip(randomTip(tips.will)); break;
+    case '化妆': attributes.will+=1*multiplier; logTip(randomTip(tips.will)); break;
+  }
+  updateDisplay();
+}
+
+function performCustomTask(){
+  const task=document.getElementById('customTask').value;
+  if(!task) return;
+  const multiplier=parseTime(task);
+  let applied=false;
+
+  if(task.includes('学习')||task.includes('读书')||task.includes('温习')){ performAction('学习',multiplier); applied=true; }
+  if(task.includes('运动')||task.includes('跑步')||task.includes('伸展')||task.includes('健身')){ performAction('运动',multiplier); applied=true; }
+  if(task.includes('打扫')||task.includes('整理')){ performAction('打扫',multiplier); applied=true; }
+  if(task.includes('做饭')){ performAction('做饭',multiplier); applied=true; }
+  if(task.includes('化妆')){ performAction('化妆',multiplier); applied=true; }
+
+  // 负分示例
+  if(task.includes('玩游戏')){ attributes.wisdom-=1*multiplier; attributes.will-=1*multiplier; logTip(randomTip(tips.wisdom)); logTip(randomTip(tips.will)); applied=true; }
+  if(task.includes('看小说')||task.includes('刷剧')){ attributes.mind-=1*multiplier; attributes.will-=1*multiplier; logTip(randomTip(tips.mind)); logTip(randomTip(tips.will)); applied=true; }
+  if(task.includes('方便面')||task.includes('油炸')){ attributes.health-=1*multiplier; logTip(randomTip(tips.health)); applied=true; attributes.weight+=0.1*multiplier; }
+
+  if(!applied){ logTip(`你完成了任务：“${task}”，但系统未识别具体属性变化。`); }
+  document.getElementById('customTask').value='';
+  updateDisplay();
+}
+
+function updateLevel(){
+  const total=attributes.health+attributes.stamina+attributes.tidiness+attributes.will+attributes.mind+attributes.wisdom;
+  let lvl='婉女';
+  if(total>=150) lvl='大成';
+  else if(total>=100) lvl='佳人';
+  else if(total>=60) lvl='知女';
+  else if(total>=30) lvl='才女';
+  document.getElementById('level').innerText=lvl;
+  logTip(`当前等级：${lvl}，总积分：${Math.round(total*10)/10}`);
+}
+
+updateDisplay();
+</script>
+</body>
+</html>
