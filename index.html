@@ -70,7 +70,6 @@ button:hover {
   justify-content: space-between;
   padding: 2px 0;
 }
-
 /* 调整h3标签 */
 h3 {
   font-size: 18px; /* 缩小字体大小 */
@@ -142,6 +141,27 @@ h3 {
   </div>
 </div>
 
+<!-- ✅ Firebase 模块导入 -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
+    authDomain: "mylifeproject-4712e.firebaseapp.com",
+    projectId: "mylifeproject-4712e",
+    storageBucket: "mylifeproject-4712e.firebasestorage.app",
+    messagingSenderId: "326417385505",
+    appId: "1:326417385505:web:f352dacda0da35fb17bb60"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  console.log("✅ Firebase 已初始化成功");
+</script>
+
+<!-- 游戏逻辑脚本 -->
 <script>
 // 获取当前日期
 function getCurrentDate() {
@@ -215,7 +235,6 @@ function study(){
     `夜深灯火，倩影研读，《${subject}》如诗如画，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
     `窗外月光如水，桌上书香扑鼻，《${subject}》中的奥秘渐渐明了，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`
   ];
-
   addTip(studyTips[Math.floor(Math.random() * studyTips.length)]);
   updateDisplay();
 }
@@ -243,31 +262,38 @@ function eat(type){
 function exercise(type){
   let tip;
   if(type === "持重锻体"){
-    attr.stamina += 1.5; attr.health += 1;
+    attr.stamina += 1.5;
+    attr.health += 1;
     tip = [
       "举铁如山，气血畅通，体力＋1.5，健康＋1。",
       "沉心锤炼，筋骨舒展，体力＋1.5，健康＋1。",
       "力行锻体，气血流畅，体力＋1.5，健康＋1。"
     ];
   }
+
   if(type === "修身养性"){
-    attr.stamina += 1; attr.will += 0.5;
+    attr.stamina += 1;
+    attr.will += 0.5;
     tip = [
       "轻舒腰肢，气定神闲，体力＋1，意志＋0.5。",
       "腰身轻旋，心静如水，体力＋1，意志＋0.5。",
       "静心养性，舒展身心，体力＋1，意志＋0.5。"
     ];
   }
+
   if(type === "舒筋活络"){
-    attr.health += 1; attr.mind += 0.5;
+    attr.health += 1;
+    attr.mind += 0.5;
     tip = [
       "筋骨舒展，心境清宁，健康＋1，心性＋0.5。",
       "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。",
       "筋骨畅通，气血流动，健康＋1，心性＋0.5。"
     ];
   }
+
   if(type === "舞动风华"){
-    attr.stamina += 1.2; attr.health += 0.7;
+    attr.stamina += 1.2;
+    attr.health += 0.7;
     tip = [
       "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。",
       "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。",
@@ -287,7 +313,8 @@ function cook(){
 }
 
 function clean(){
-  attr.tidiness += 1; attr.stamina += 0.5;
+  attr.tidiness += 1;
+  attr.stamina += 0.5;
   addTip("扫去尘埃，明窗净几，心境澄明，整洁＋1，体力＋0.5。");
   updateDisplay();
 }
