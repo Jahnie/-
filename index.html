@@ -24,8 +24,20 @@ body {
   line-height: 1.8;
   font-size: 16px;
   box-shadow: 0 0 6px #e0d1be;
-  height: 85vh;
+  height: 88.5vh;
   overflow-y: auto;
+}
+
+#loginSection {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  border: none; /* 去掉模块感 */
+  background:#f9e6ea;
+  background-color: #f9e6ea;   /* 柔粉底色 */
+  border: 1px solid #e4b6c2;  /* 粉色边框 */
+  color: #704848;   
 }
 #main {
   width: 50%;
@@ -35,7 +47,7 @@ body {
   gap: 8px;
 }
 button {
-  background: #e8d6c2;
+  background: #f9e6ea;
   border: none;
   padding: 2px 7px;
   border-radius: 8px;
@@ -76,11 +88,18 @@ h3 {
   margin: 0px 0 7px; /* 增加上方和下方的间距 */
   padding-left: 10px; /* 使标题靠左 */
 }
-</style>
+    </style>
 </head>
 <body>
 
-<div id="tipBox"></div>
+<div id="tipBox">
+  <div id="loginSection">
+    <button onclick="registerWithEmail()">注册</button>
+    <button onclick="loginWithEmail()">登录</button>
+    <button onclick="saveGameData()">保存进度</button> 
+  </div>
+</div>
+
 
 <div id="main">
   <div id="scoreBoard">当前等级：婉女　总积分：0</div>
@@ -138,29 +157,198 @@ h3 {
     <h3>🕉️ 念经</h3>
     <button onclick="chant()">念经修行</button>
     <button onclick="noChant()">怠慢修行</button>
-  </div>
-</div>
+    </div>
 
-<!-- ✅ Firebase 模块导入 -->
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
-    authDomain: "mylifeproject-4712e.firebaseapp.com",
-    projectId: "mylifeproject-4712e",
-    storageBucket: "mylifeproject-4712e.firebasestorage.app",
-    messagingSenderId: "326417385505",
-    appId: "1:326417385505:web:f352dacda0da35fb17bb60"
-  };
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  console.log("✅ Firebase 已初始化成功");
-</script>
+    // 您原有的 Firebase 配置
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
+      authDomain: "mylifeproject-4712e.firebaseapp.com",
+      projectId: "mylifeproject-4712e",
+      storageBucket: "mylifeproject-4712e.firebasestorage.app",
+      messagingSenderId: "326417385505",
+      appId: "1:326417385505:web:f352dacda0da35fb17bb60"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    
+    // 辅助函数：从显示区获取所有提示信息
+    function getTipsFromDisplay() {
+        const tipBox = document.getElementById('tipBox');
+        return Array.from(tipBox.children).map(child => child.innerText);
+    }
+    
+    // 辅助函数：清空并显示从 Firestore 读取的提示信息
+    function displayTips(tipsArray) {
+        const tipBox = document.getElementById('tipBox');
+        tipBox.innerHTML = ''; 
+        
+        // Tips 是按旧到新保存的，但 tipBox 是新到旧（prepend），所以反转数组后逐个 prepend
+        [...tipsArray].reverse().forEach(tipText => {
+            const p = document.createElement('div');
+            p.innerText = tipText;
+            tipBox.prepend(p);
+        });
+        
+        // 添加一个友好的分隔符
+        const greeting = document.createElement('div');
+        greeting.innerText = `--- [${new Date().toLocaleString('zh-CN')}] 存档加载完成 ---`;
+        tipBox.prepend(greeting);
+    }
+
+    // 监听认证状态，实现登录或刷新后自动读取
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            console.log("用户已登录，ID:", currentUser.uid);
+            // 登录或刷新后自动加载数据和Tips
+            loadGameData(true); // 传入 true 表示是自动加载，不弹窗
+        } else {
+            currentUser = null;
+            console.log("用户未登录或已登出");
+        }
+    });
+
+    // 使用邮箱注册
+    function registerWithEmail() {
+      const email = prompt("请输入您的邮箱");
+      const password = prompt("请输入您的密码（至少6位）");
+
+        if (!email || !password) {
+            alert("邮箱和密码不能为空！");
+            return;
+        }
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          currentUser = userCredential.user;
+          console.log("注册成功，用户ID:", currentUser.uid);
+          alert("注册成功，已为您保存初始进度！");
+            saveGameData(true); // 注册成功后自动保存一次初始数据
+        })
+        .catch((error) => {
+          console.error("注册失败", error);
+          alert(`注册失败: ${error.message}`);
+        });
+    }
+
+    // 使用邮箱登录
+    function loginWithEmail() {
+      const email = prompt("请输入您的邮箱");
+      const password = prompt("请输入您的密码");
+
+        if (!email || !password) {
+            alert("邮箱和密码不能为空！");
+            return;
+        }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          currentUser = userCredential.user;
+          console.log("登录成功，用户ID:", currentUser.uid);
+          loadGameData(true); // 登录成功后自动读取数据，不弹窗
+          alert("登录成功，存档已自动加载！");
+        })
+        .catch((error) => {
+          console.error("登录失败", error);
+          alert(`登录失败: ${error.message}`);
+        });
+    }
+
+    // 保存游戏数据和 Tips 到 Firestore
+    async function saveGameData(isInitialSave = false) {
+        if (!currentUser) {
+            alert("请先登录或注册才能保存数据！");
+            return;
+        }
+
+        const userDocRef = doc(db, "users", currentUser.uid); 
+        const currentTips = getTipsFromDisplay(); // 获取所有当前显示的 Tips
+
+        try {
+            await setDoc(userDocRef, {
+                attributes: window.attr, 
+                tips: currentTips, // <-- 保存 Tips 数组
+                lastSave: new Date().toLocaleString('zh-CN'), 
+            });
+            if (!isInitialSave) {
+                alert("游戏数据和历史记录保存成功！");
+            }
+            console.log("数据成功写入 Firestore！");
+        } catch (e) {
+            console.error("数据写入失败：", e);
+            alert("数据保存失败，请检查 Firebase 权限和网络连接。");
+        }
+    }
+    
+    // 从 Firestore 读取游戏数据和 Tips
+    async function loadGameData(isAutoLoad = false) {
+        if (!currentUser) {
+            return;
+        }
+
+        const userDocRef = doc(db, "users", currentUser.uid); 
+        
+        try {
+            const docSnap = await getDoc(userDocRef);
+            
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                // 1. 读取 Attributes
+                if(data.attributes) {
+                    Object.assign(window.attr, data.attributes); 
+                    window.updateDisplay(); // 更新显示
+                }
+
+                // 2. 读取 Tips
+                if (data.tips && Array.isArray(data.tips)) {
+                    displayTips(data.tips); // 清空并显示所有历史 Tips
+                } else {
+                    document.getElementById('tipBox').innerHTML = '';
+                    window.addTip(`欢迎回来，${currentUser.email}！未找到历史记录，请继续修行。`);
+                }
+
+                console.log("数据读取成功:", data);
+
+            } else if (!isAutoLoad) {
+                // 仅在非自动加载（即手动点击，虽然我们现在移除了按钮）时提示
+                alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
+            }
+        } catch (e) {
+            console.error("数据读取失败：", e);
+            if (!isAutoLoad) {
+                alert("数据读取失败，请检查 Firebase 权限和网络连接。");
+            }
+        }
+    }
+    
+    // *** 将模块内的函数暴露给全局作用域 ***
+    window.registerWithEmail = registerWithEmail;
+    window.loginWithEmail = loginWithEmail;
+    window.saveGameData = saveGameData; 
+    // loadGameData 已被移除
+
+  </script>
+ 
 <!-- 游戏逻辑脚本 -->
 <script>
 // 获取当前日期
