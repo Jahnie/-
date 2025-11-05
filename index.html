@@ -5,512 +5,506 @@
 <title>修心养性记</title>
 <style>
 body {
-  background: #f8f4ef;
-  font-family: "宋体";
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  padding: 20px;
+  background: #f8f4ef;
+  font-family: "宋体";
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 20px;
 }
 #tipBox {
-  width: 40%;
-  background: #fff8f2;
-  border: 2px solid #cbb8a5;
-  border-radius: 10px;
-  padding: 15px;
-  color: #5c4631;
-  line-height: 1.8;
-  font-size: 16px;
-  box-shadow: 0 0 6px #e0d1be;
-  height: 88.5vh;
-  overflow-y: auto;
+  width: 40%;
+  background: #fff8f2;
+  border: 2px solid #cbb8a5;
+  border-radius: 10px;
+  padding: 15px;
+  color: #5c4631;
+  line-height: 1.8;
+  font-size: 16px;
+  box-shadow: 0 0 6px #e0d1be;
+  height: 88.5vh;
+  overflow-y: auto;
 }
 
 #loginSection {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
-  border: none; /* 去掉模块感 */
-  background:#f9e6ea;
-  background-color: #f9e6ea;   /* 柔粉底色 */
-  border: 1px solid #e4b6c2;  /* 粉色边框 */
-  color: #704848;   
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  border: none;
+  background:#f9e6ea;
+  background-color: #f9e6ea;
+  border: 1px solid #e4b6c2;
+  color: #704848;
 }
 #main {
-  width: 50%;
-  margin-left: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  width: 50%;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 button {
-  background: #f9e6ea;
-  border: none;
-  padding: 2px 7px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+  background: #f9e6ea;
+  border: none;
+  padding: 2px 7px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
 }
 button:hover {
-  background: #d7c1a8;
+  background: #d7c1a8;
 }
 .section {
-  background: #fffdf8;
-  border: 1px solid #d2c0a8;
-  border-radius: 3px;
-  padding: 15px;
+  background: #fffdf8;
+  border: 1px solid #d2c0a8;
+  border-radius: 3px;
+  padding: 15px;
 }
 #scoreBoard {
-  font-weight: bold;
-  color: #4b3823;
-  margin-bottom: 5px;
+  font-weight: bold;
+  color: #4b3823;
+  margin-bottom: 5px;
 }
 #attrBoard {
-  background: #fefaf5;
-  border: 1px solid #d6c4aa;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 8px;
-  font-size: 15px;
-  color: #5c4631;
+  background: #fefaf5;
+  border: 1px solid #d6c4aa;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #5c4631;
 }
 .attr-line {
-  display: flex;
-  justify-content: space-between;
-  padding: 2px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
 }
-/* 调整h3标签 */
 h3 {
-  font-size: 18px; /* 缩小字体大小 */
-  margin: 0px 0 7px; /* 增加上方和下方的间距 */
-  padding-left: 10px; /* 使标题靠左 */
+  font-size: 18px;
+  margin: 0px 0 7px;
+  padding-left: 10px;
 }
-    </style>
+</style>
 </head>
 <body>
 
 <div id="tipBox" class="tip-content">
-  <div id="loginSection">
-    <button onclick="registerWithEmail()">注册</button>
-    <button onclick="loginWithEmail()">登录</button>
-    <button onclick="saveGameData()">保存进度</button>
-  </div>
+  <div id="loginSection">
+    <button onclick="registerWithEmail()">注册</button>
+    <button onclick="loginWithEmail()">登录</button>
+    <button onclick="saveGameData()">保存进度</button>
+  </div>
 </div>
 
 <div id="main">
-  <div id="scoreBoard">当前等级：婉女　总积分：0</div>
-  <div id="attrBoard">
-    <div class="attr-line"><span>🌿 健康：</span><span id="healthVal">0</span></div>
-    <div class="attr-line"><span>🔥 体力：</span><span id="staminaVal">0</span></div>
-    <div class="attr-line"><span>🧺 整洁：</span><span id="tidinessVal">0</span></div>
-    <div class="attr-line"><span>🪞 意志：</span><span id="willVal">0</span></div>
-    <div class="attr-line"><span>🕊️ 心性：</span><span id="mindVal">0</span></div>
-    <div class="attr-line"><span>📜 悟性：</span><span id="wisdomVal">0</span></div>
-  </div>
+  <div id="scoreBoard">当前等级：婉女　总积分：0</div>
+  <div id="attrBoard">
+    <div class="attr-line"><span>🌿 健康：</span><span id="healthVal">0</span></div>
+    <div class="attr-line"><span>🔥 体力：</span><span id="staminaVal">0</span></div>
+    <div class="attr-line"><span>🧺 整洁：</span><span id="tidinessVal">0</span></div>
+    <div class="attr-line"><span>🪞 意志：</span><span id="willVal">0</span></div>
+    <div class="attr-line"><span>🕊️ 心性：</span><span id="mindVal">0</span></div>
+    <div class="attr-line"><span>📜 悟性：</span><span id="wisdomVal">0</span></div>
+  </div>
 
-  <div class="section">
-    <h3>📖 学习</h3>
-    <select id="subject">
-      <option>中医学</option>
-      <option>针灸学</option>
-      <option>西医学</option>
-      <option>英文</option>
-    </select>
-    <input id="studyHour" type="number" placeholder="小时" min="0" style="width:50px;">时
-    <input id="studyMin" type="number" placeholder="分钟" min="0" style="width:60px;">分
-    <button onclick="study()">修习</button>
-    <button onclick="noStudy()">偷懒一日</button>
-  </div>
+  <div class="section">
+    <h3>📖 学习</h3>
+    <select id="subject">
+      <option>中医学</option>
+      <option>针灸学</option>
+      <option>西医学</option>
+      <option>英文</option>
+    </select>
+    <input id="studyHour" type="number" placeholder="小时" min="0" style="width:50px;">时
+    <input id="studyMin" type="number" placeholder="分钟" min="0" style="width:60px;">分
+    <button onclick="study()">修习</button>
+    <button onclick="noStudy()">偷懒一日</button>
+  </div>
 
-  <div class="section">
-    <h3>🥣 饮食</h3>
-    <button onclick="eat('健康')">膳食清淡</button>
-    <button onclick="eat('垃圾')">油炸奶茶泡面</button>
-  </div>
+  <div class="section">
+    <h3>🥣 饮食</h3>
+    <button onclick="eat('健康')">膳食清淡</button>
+    <button onclick="eat('垃圾')">油炸奶茶泡面</button>
+  </div>
 
-  <div class="section">
-    <h3>💪 运动</h3>
-    <button onclick="exercise('持重锻体')">持重锻体（举哑铃）</button>
-    <button onclick="exercise('修身养性')">修身养性（腰部锻炼）</button>
-    <button onclick="exercise('舒筋活络')">舒筋活络（拉伸）</button>
-    <button onclick="exercise('舞动风华')">舞动风华（健身操）</button>
-  </div>
+  <div class="section">
+    <h3>💪 运动</h3>
+    <button onclick="exercise('持重锻体')">持重锻体（举哑铃）</button>
+    <button onclick="exercise('修身养性')">修身养性（腰部锻炼）</button>
+    <button onclick="exercise('舒筋活络')">舒筋活络（拉伸）</button>
+    <button onclick="exercise('舞动风华')">舞动风华（健身操）</button>
+  </div>
 
-  <div class="section">
-    <h3>🏡 日常</h3>
-    <button onclick="cook()">烹饪膳食</button>
-    <button onclick="clean()">打扫房间</button>
-  </div>
+  <div class="section">
+    <h3>🏡 日常</h3>
+    <button onclick="cook()">烹饪膳食</button>
+    <button onclick="clean()">打扫房间</button>
+  </div>
 
-  <div class="section">
-    <h3>🪞 仪容</h3>
-    <button onclick="groom('化妆')">施粉黛</button>
-    <button onclick="groom('刷牙')">晨起盥洗</button>
-    <button onclick="groom('洗澡')">沐浴更衣</button>
-  </div>
+  <div class="section">
+    <h3>🪞 仪容</h3>
+    <button onclick="groom('化妆')">施粉黛</button>
+    <button onclick="groom('刷牙')">晨起盥洗</button>
+    <button onclick="groom('洗澡')">沐浴更衣</button>
+  </div>
 
-  <div class="section">
-    <h3>🕉️ 念经</h3>
-    <button onclick="chant()">念经修行</button>
-    <button onclick="noChant()">怠慢修行</button>
-    </div>
+  <div class="section">
+    <h3>🕉️ 念经</h3>
+    <button onclick="chant()">念经修行</button>
+    <button onclick="noChant()">怠慢修行</button>
+    </div>
+</div> <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    // 1. 定义全局属性对象
+    window.attr = {
+        health: 0,
+        stamina: 0,
+        tidiness: 0,
+        will: 0,
+        mind: 0,
+        wisdom: 0
+    };
+    
+    // Firebase 配置
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
+      authDomain: "mylifeproject-4712e.firebaseapp.com",
+      projectId: "mylifeproject-4712e",
+      storageBucket: "mylifeproject-4712e.firebasestorage.app",
+      messagingSenderId: "326417385505",
+      appId: "1:326417385505:web:f352dacda0da35fb17bb60"
+    };
 
-    // 【关键修正 1】将 attr 定义在这里，确保在 Firebase 代码执行时它是完整的对象（初始为 0）
-    window.attr = {
-        health: 0,
-        stamina: 0,
-        tidiness: 0,
-        will: 0,
-        mind: 0,
-        wisdom: 0
-    };
-    
-    // 您原有的 Firebase 配置
-    const firebaseConfig = {
-      apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
-      authDomain: "mylifeproject-4712e.firebaseapp.com",
-      projectId: "mylifeproject-4712e",
-      storageBucket: "mylifeproject-4712e.firebasestorage.app",
-      messagingSenderId: "326417385505",
-      appId: "1:326417385505:web:f352dacda0da35fb17bb60"
-    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore(app);
+    let currentUser = null;
+    
+    function getTipsFromDisplay() {
+        const tipBox = document.getElementById('tipBox');
+        const children = Array.from(tipBox.children);
+        return children.slice(0, children.length - 1).map(child => child.innerText);
+    }
+    
+    function displayTips(tipsArray) {
+        const tipBox = document.getElementById('tipBox');
+        const loginSection = document.getElementById('loginSection');
+        tipBox.innerHTML = '';
+        tipBox.appendChild(loginSection);
 
-    let currentUser = null;
-    
-    // 【已修正】辅助函数：从显示区获取所有提示信息，排除最后一个元素 (#loginSection)
-    function getTipsFromDisplay() {
-        const tipBox = document.getElementById('tipBox');
-        const children = Array.from(tipBox.children);
-        // 排除最后一个元素（即 #loginSection）
-        return children.slice(0, children.length - 1).map(child => child.innerText);
-    }
-    
-    // 【已修正】辅助函数：清空并显示从 Firestore 读取的提示信息，但保留 #loginSection
-    function displayTips(tipsArray) {
-        const tipBox = document.getElementById('tipBox');
-        const loginSection = document.getElementById('loginSection');
-        tipBox.innerHTML = '';
-        tipBox.appendChild(loginSection); // 重新插入 loginSection
+        [...tipsArray].reverse().forEach(tipText => {
+            const p = document.createElement('div');
+            p.innerText = tipText;
+            tipBox.prepend(p);
+        });
+        
+        const greeting = document.createElement('div');
+        greeting.innerText = `--- [${new Date().toLocaleString('zh-CN')}] 存档加载完成 ---`;
+        tipBox.prepend(greeting);
+    }
 
-        [...tipsArray].reverse().forEach(tipText => {
-            const p = document.createElement('div');
-            p.innerText = tipText;
-            tipBox.prepend(p);
-        });
-        
-        const greeting = document.createElement('div');
-        greeting.innerText = `--- [${new Date().toLocaleString('zh-CN')}] 存档加载完成 ---`;
-        tipBox.prepend(greeting);
-    }
+    // 监听认证状态
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            if (window.updateDisplay) window.updateDisplay();
+            loadGameData(true);
+        } else {
+            currentUser = null;
+        }
+    });
 
-    // 监听认证状态
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            currentUser = user;
-            console.log("用户已登录，ID:", currentUser.uid);
-            if (window.updateDisplay) window.updateDisplay();
-            loadGameData(true);
-        } else {
-            currentUser = null;
-            console.log("用户未登录或已登出");
-        }
-    });
+    // 使用邮箱注册
+    function registerWithEmail() {
+        const email = prompt("请输入您的邮箱");
+        const password = prompt("请输入您的密码（至少6位）");
+        if (!email || !password) {
+            alert("邮箱和密码不能为空！");
+            return;
+        }
 
-    // 使用邮箱注册
-    function registerWithEmail() {
-        const email = prompt("请输入您的邮箱");
-        const password = prompt("请输入您的密码（至少6位）");
-        if (!email || !password) {
-            alert("邮箱和密码不能为空！");
-            return;
-        }
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            currentUser = userCredential.user;
+            alert("注册成功，已为您保存初始进度！");
+            // 确保初始保存的是 0 分数据
+            Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
+            if (window.updateDisplay) window.updateDisplay();
+            saveGameData(true); 
+          })
+          .catch((error) => {
+            console.error("注册失败", error);
+            alert(`注册失败: ${error.message}`);
+          });
+    }
 
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            currentUser = userCredential.user;
-            alert("注册成功，已为您保存初始进度！");
-            // 【修正】确保初始保存的是 0 分数据
-            Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
-            if (window.updateDisplay) window.updateDisplay();
-            saveGameData(true); 
-          })
-          .catch((error) => {
-            console.error("注册失败", error);
-            alert(`注册失败: ${error.message}`);
-          });
-    }
+    // 使用邮箱登录
+    function loginWithEmail() {
+        const email = prompt("请输入您的邮箱");
+        const password = prompt("请输入您的密码");
+        if (!email || !password) {
+            alert("邮箱和密码不能为空！");
+            return;
+        }
 
-    // 使用邮箱登录
-    function loginWithEmail() {
-        const email = prompt("请输入您的邮箱");
-        const password = prompt("请输入您的密码");
-        if (!email || !password) {
-            alert("邮箱和密码不能为空！");
-            return;
-        }
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            currentUser = userCredential.user;
+            loadGameData(true); 
+            alert("登录成功，存档已自动加载！");
+          })
+          .catch((error) => {
+            console.error("登录失败", error);
+            alert(`登录失败: ${error.message}`);
+          });
+    }
 
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            currentUser = userCredential.user;
-            loadGameData(true); 
-            alert("登录成功，存档已自动加载！");
-          })
-          .catch((error) => {
-            console.error("登录失败", error);
-            alert(`登录失败: ${error.message}`);
-          });
-    }
+    // 保存游戏数据和 Tips 到 Firestore
+    async function saveGameData(isInitialSave = false) {
+        if (!currentUser) {
+            alert("请先登录或注册才能保存数据！");
+            return;
+        }
 
-    // 保存游戏数据和 Tips 到 Firestore
-    async function saveGameData(isInitialSave = false) {
-        if (!currentUser) {
-            alert("请先登录或注册才能保存数据！");
-            return;
-        }
+        const userDocRef = doc(db, "users", currentUser.uid);	
+        const currentTips = getTipsFromDisplay();
 
-        const userDocRef = doc(db, "users", currentUser.uid);	
-        const currentTips = getTipsFromDisplay();
-
-        try {
-            await setDoc(userDocRef, {
-                attributes: window.attr, // 使用 window.attr 确保是完整对象
-                tips: currentTips,
-                lastSave: new Date().toLocaleString('zh-CN'),
-            });
-            if (!isInitialSave) {
-                alert("游戏数据和历史记录保存成功！");
-            }
-            console.log("数据成功写入 Firestore！");
-        } catch (e) {
-            console.error("数据写入失败：", e);
-            alert("数据保存失败，请检查网络连接或 Firebase 权限。");
-        }
-    }
-    
-    // 从 Firestore 读取游戏数据和 Tips
-    async function loadGameData(isAutoLoad = false) {
-        if (!currentUser) return;
-        const userDocRef = doc(db, "users", currentUser.uid);	
-        
-        try {
-            const docSnap = await getDoc(userDocRef);
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                if(data.attributes) {
-                    Object.assign(window.attr, data.attributes);	
-                    if (window.updateDisplay) window.updateDisplay();
-                }
-                if (data.tips && Array.isArray(data.tips)) {
-                    displayTips(data.tips);
-                } else {
-                    displayTips([]);
-                    window.addTip(`欢迎回来，${currentUser.email}！未找到历史记录，请继续修行。`);
-                }
-            } else if (!isAutoLoad) {
-                alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
-            }
-        } catch (e) {
-            console.error("数据读取失败：", e);
-            if (!isAutoLoad) {
-                alert("数据读取失败，请检查网络连接。");
-            }
-        }
-    }
-    
-    // *** 将模块内的函数暴露给全局作用域 ***
-    window.registerWithEmail = registerWithEmail;
-    window.loginWithEmail = loginWithEmail;
-    window.saveGameData = saveGameData;	
+        try {
+            await setDoc(userDocRef, {
+                attributes: window.attr,
+                tips: currentTips,
+                lastSave: new Date().toLocaleString('zh-CN'),
+            });
+            if (!isInitialSave) {
+                alert("游戏数据和历史记录保存成功！");
+            }
+        } catch (e) {
+            console.error("数据写入失败：", e);
+            alert("数据保存失败，请检查网络连接或 Firebase 权限。");
+        }
+    }
+    
+    // 从 Firestore 读取游戏数据和 Tips
+    async function loadGameData(isAutoLoad = false) {
+        if (!currentUser) return;
+        const userDocRef = doc(db, "users", currentUser.uid);	
+        
+        try {
+            const docSnap = await getDoc(userDocRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if(data.attributes) {
+                    Object.assign(window.attr, data.attributes);	
+                    if (window.updateDisplay) window.updateDisplay();
+                }
+                if (data.tips && Array.isArray(data.tips)) {
+                    displayTips(data.tips);
+                } else {
+                    displayTips([]);
+                    window.addTip(`欢迎回来，${currentUser.email}！未找到历史记录，请继续修行。`);
+                }
+            } else if (!isAutoLoad) {
+                alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
+            }
+        } catch (e) {
+            console.error("数据读取失败：", e);
+            if (!isAutoLoad) {
+                alert("数据读取失败，请检查网络连接。");
+            }
+        }
+    }
+    
+    // *** 将模块内的函数暴露给全局作用域 ***
+    window.registerWithEmail = registerWithEmail;
+    window.loginWithEmail = loginWithEmail;
+    window.saveGameData = saveGameData;	
 </script>
- 
-<script>
-// 【关键修正 2】使用 const attr = window.attr 链接到模块脚本中定义的 attr
-const attr = window.attr; 
 
+
+<script>
 function getCurrentDate() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const day = now.getDate();
-    return `${year}年${month}月${day}日`;
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    return `${year}年${month}月${day}日`;
 }
 
 function totalScore(){
-    return attr.health + attr.stamina + attr.tidiness + attr.will + attr.mind + attr.wisdom;
+    // 访问全局 window.attr，需要在模块脚本定义完成后才能安全访问
+    // 但是在普通脚本中，它通常可以找到模块脚本预定义的 window.attr
+    return window.attr.health + window.attr.stamina + window.attr.tidiness + window.attr.will + window.attr.mind + window.attr.wisdom;
 }
 
 function levelName(){
-    const t = totalScore();
-    if(t>=150) return "大成";
-    if(t>=100) return "佳人";
-    if(t>=60) return "知女";
-    if(t>=30) return "才女";
-    return "婉女";
+    const t = totalScore();
+    if(t>=150) return "大成";
+    if(t>=100) return "佳人";
+    if(t>=60) return "知女";
+    if(t>=30) return "才女";
+    return "婉女";
 }
 
-// 【关键修正 3】暴露 updateDisplay
+// 暴露 updateDisplay，供模块脚本在加载数据后调用
 function updateDisplay(){
-    document.getElementById('scoreBoard').innerText = 
-        `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
-    document.getElementById('healthVal').innerText = attr.health.toFixed(1);
-    document.getElementById('staminaVal').innerText = attr.stamina.toFixed(1);
-    document.getElementById('tidinessVal').innerText = attr.tidiness.toFixed(1);
-    document.getElementById('willVal').innerText = attr.will.toFixed(1);
-    document.getElementById('mindVal').innerText = attr.mind.toFixed(1);
-    document.getElementById('wisdomVal').innerText = attr.wisdom.toFixed(1);
+    document.getElementById('scoreBoard').innerText = 
+        `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
+    // 访问全局 window.attr
+    document.getElementById('healthVal').innerText = window.attr.health.toFixed(1);
+    document.getElementById('staminaVal').innerText = window.attr.stamina.toFixed(1);
+    document.getElementById('tidinessVal').innerText = window.attr.tidiness.toFixed(1);
+    document.getElementById('willVal').innerText = window.attr.will.toFixed(1);
+    document.getElementById('mindVal').innerText = window.attr.mind.toFixed(1);
+    document.getElementById('wisdomVal').innerText = window.attr.wisdom.toFixed(1);
 }
-window.updateDisplay = updateDisplay; // 暴露给模块脚本使用
+window.updateDisplay = updateDisplay;
 
+// 暴露 addTip，供模块脚本在加载数据后调用
 function addTip(text){
-    const tipBox = document.getElementById('tipBox');
-    const p = document.createElement('div');
-    const date = getCurrentDate();
-    p.innerText = `[${date}] ${text}`;
-    tipBox.prepend(p);
+    const tipBox = document.getElementById('tipBox');
+    const p = document.createElement('div');
+    const date = getCurrentDate();
+    p.innerText = `[${date}] ${text}`;
+    tipBox.prepend(p);
 }
-window.addTip = addTip; // 暴露给模块脚本使用
+window.addTip = addTip;
 
 // 初始提示
 addTip("🌸 清晨微光，静候修行始。");
 
 // 📖 学习
 function study(){
-  const subject = document.getElementById('subject').value;
-  let hour = parseFloat(document.getElementById('studyHour').value) || 0;
-  let min = parseFloat(document.getElementById('studyMin').value) || 0;
-  let totalHour = hour + min/60;
-  if(totalHour <= 0){ addTip("无心于书卷，时光悄然溜走……"); return; }
+  const subject = document.getElementById('subject').value;
+  let hour = parseFloat(document.getElementById('studyHour').value) || 0;
+  let min = parseFloat(document.getElementById('studyMin').value) || 0;
+  let totalHour = hour + min/60;
+  if(totalHour <= 0){ addTip("无心于书卷，时光悄然溜走……"); return; }
 
-  let gain = totalHour * 3;
-  attr.wisdom += gain;
-  attr.will += gain * 0.5;
+  let gain = totalHour * 3;
+  window.attr.wisdom += gain;
+  window.attr.will += gain * 0.5;
 
-  // 随机选择古风提示
-  const studyTips = [
-    `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-    `轻启书卷，春风拂面，研习《${subject}》有成，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-    `夜深灯火，倩影研读，《${subject}》如诗如画，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-    `窗外月光如水，桌上书香扑鼻，《${subject}》中的奥秘渐渐明了，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`
-  ];
-  addTip(studyTips[Math.floor(Math.random() * studyTips.length)]);
-  updateDisplay();
+  // 随机选择古风提示
+  const studyTips = [
+    `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
+    `轻启书卷，春风拂面，研习《${subject}》有成，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
+    `夜深灯火，倩影研读，《${subject}》如诗如画，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
+    `窗外月光如水，桌上书香扑鼻，《${subject}》中的奥秘渐渐明了，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`
+  ];
+  addTip(studyTips[Math.floor(Math.random() * studyTips.length)]);
+  updateDisplay();
 }
 
 function noStudy(){
-  attr.will -= 1;
-  attr.wisdom -= 1;
-  addTip("一日偷懒，书卷蒙尘，悟性－1，意志－1。");
-  updateDisplay();
+    window.attr.will -= 1;
+    window.attr.wisdom -= 1;
+  addTip("一日偷懒，书卷蒙尘，悟性－1，意志－1。");
+  updateDisplay();
 }
 
 // 🥣 饮食
 function eat(type){
-  if(type === '健康'){
-    attr.health += 1;
-    addTip("青蔬淡饭，清心寡欲，气血调和，健康＋1。");
-  } else {
-    attr.health -= 2;
-    addTip("油炸奶茶泡面入腹，脾胃不适，健康－2。");
-  }
-  updateDisplay();
+  if(type === '健康'){
+    window.attr.health += 1;
+    addTip("青蔬淡饭，清心寡欲，气血调和，健康＋1。");
+  } else {
+    window.attr.health -= 2;
+    addTip("油炸奶茶泡面入腹，脾胃不适，健康－2。");
+  }
+  updateDisplay();
 }
 
 // 💪 运动
 function exercise(type){
-  let tip;
-  if(type === "持重锻体"){
-    attr.stamina += 1.5;
-    attr.health += 1;
-    tip = [
-      "举铁如山，气血畅通，体力＋1.5，健康＋1。",
-      "沉心锤炼，筋骨舒展，体力＋1.5，健康＋1。",
-      "力行锻体，气血流畅，体力＋1.5，健康＋1。"
-    ];
-  }
+  let tip;
+  if(type === "持重锻体"){
+    window.attr.stamina += 1.5;
+    window.attr.health += 1;
+    tip = [
+      "举铁如山，气血畅通，体力＋1.5，健康＋1。",
+      "沉心锤炼，筋骨舒展，体力＋1.5，健康＋1。",
+      "力行锻体，气血流畅，体力＋1.5，健康＋1。"
+    ];
+  }
 
-  if(type === "修身养性"){
-    attr.stamina += 1;
-    attr.will += 0.5;
-    tip = [
-      "轻舒腰肢，气定神闲，体力＋1，意志＋0.5。",
-      "腰身轻旋，心静如水，体力＋1，意志＋0.5。",
-      "静心养性，舒展身心，体力＋1，意志＋0.5。"
-    ];
-  }
+  if(type === "修身养性"){
+    window.attr.stamina += 1;
+    window.attr.will += 0.5;
+    tip = [
+      "轻舒腰肢，气定神闲，体力＋1，意志＋0.5。",
+      "腰身轻旋，心静如水，体力＋1，意志＋0.5。",
+      "静心养性，舒展身心，体力＋1，意志＋0.5。"
+    ];
+  }
 
-  if(type === "舒筋活络"){
-    attr.health += 1;
-    attr.mind += 0.5;
-    tip = [
-      "筋骨舒展，心境清宁，健康＋1，心性＋0.5。",
-      "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。",
-      "筋骨畅通，气血流动，健康＋1，心性＋0.5。"
-    ];
-  }
+  if(type === "舒筋活络"){
+    window.attr.health += 1;
+    window.attr.mind += 0.5;
+    tip = [
+      "筋骨舒展，心境清宁，健康＋1，心性＋0.5。",
+      "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。",
+      "筋骨畅通，气血流动，健康＋1，心性＋0.5。"
+    ];
+  }
 
-  if(type === "舞动风华"){
-    attr.stamina += 1.2;
-    attr.health += 0.7;
-    tip = [
-      "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。",
-      "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。",
-      "舞姿翩跹，气血顺畅，体力＋1.2，健康＋0.7。"
-    ];
-  }
-  addTip(tip[Math.floor(Math.random() * tip.length)]);
-  updateDisplay();
+  if(type === "舞动风华"){
+    window.attr.stamina += 1.2;
+    window.attr.health += 0.7;
+    tip = [
+      "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。",
+      "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。",
+      "舞姿翩跹，气血顺畅，体力＋1.2，健康＋0.7。"
+    ];
+  }
+  addTip(tip[Math.floor(Math.random() * tip.length)]);
+  updateDisplay();
 }
 
 // 🏡 日常
 function cook(){
-  attr.health += 1;
-  attr.will += 0.5;
-  addTip("亲手烹调，香气四溢，食养身心，健康＋1，意志＋0.5。");
-  updateDisplay();
+  window.attr.health += 1;
+  window.attr.will += 0.5;
+  addTip("亲手烹调，香气四溢，食养身心，健康＋1，意志＋0.5。");
+  updateDisplay();
 }
 
 function clean(){
-  attr.tidiness += 1;
-  attr.stamina += 0.5;
-  addTip("扫去尘埃，明窗净几，心境澄明，整洁＋1，体力＋0.5。");
-  updateDisplay();
+  window.attr.tidiness += 1;
+  window.attr.stamina += 0.5;
+  addTip("扫去尘埃，明窗净几，心境澄明，整洁＋1，体力＋0.5。");
+  updateDisplay();
 }
 
 // 🪞 仪容
 function groom(type){
-  let tip;
-  if(type==="化妆"){attr.will += 1; tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。";}
-  if(type==="刷牙"){attr.health += 0.5; tip = "清晨盥洗，齿白如玉，精神焕发，健康＋0.5。";}
-  if(type==="洗澡"){attr.health += 1; tip = "温泉轻雾，洗去疲乏，身心俱净，健康＋1。";}
-  addTip(tip);
-  updateDisplay();
+  let tip;
+  if(type==="化妆"){window.attr.will += 1; tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。";}
+  if(type==="刷牙"){window.attr.health += 0.5; tip = "清晨盥洗，齿白如玉，精神焕发，健康＋0.5。";}
+  if(type==="洗澡"){window.attr.health += 1; tip = "温泉轻雾，洗去疲乏，身心俱净，健康＋1。";}
+  addTip(tip);
+  updateDisplay();
 }
 
 // 🕉️ 念经
 function chant(){
-  attr.mind += 0.5;
-  attr.will += 0.5;
-  addTip("静心诵经，心灵澄净，心性＋0.5，定力＋0.5。");
-  updateDisplay();
+  window.attr.mind += 0.5;
+  window.attr.will += 0.5;
+  addTip("静心诵经，心灵澄净，心性＋0.5，定力＋0.5。");
+  updateDisplay();
 }
 
 function noChant(){
-  attr.will -= 1;
-  attr.mind -= 1;
-  addTip("心浮气躁，念经不专，心性－1，定力－1。");
-  updateDisplay();
+  window.attr.will -= 1;
+  window.attr.mind -= 1;
+  addTip("心浮气躁，念经不专，心性－1，定力－1。");
+  updateDisplay();
 }
 
 updateDisplay();
