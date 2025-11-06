@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <title>修心养性记</title>
 <style>
+/* ... (CSS 样式保持不变) ... */
 body {
-    /* 样式部分保持不变 */
     background: #f8f4ef;
     font-family: "宋体";
     display: flex;
@@ -159,7 +159,7 @@ h3 {
         </div>
 </div>
 <script>
-    // 1. 定义全局属性对象，保证在任何地方访问前都存在
+    // 1. 定义全局属性对象
     window.attr = {
         health: 0,
         stamina: 0,
@@ -170,8 +170,18 @@ h3 {
     };
     
     // 工具函数
-    function getCurrentDate() {
-        // 使用 ISO 格式获取日期部分，确保跨设备日期一致性（例如，不包含时间戳差异）
+    // 【新增/修改】用于跨设备同步的日期格式 (YYYY-MM-DD)
+    function getSyncDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        // 确保月份和日期是两位数 (例如 01, 09)
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`; 
+    }
+
+    // 【新增】本地显示日期：用于在屏幕上给用户看 (YYYY年M月D日)
+    function getDisplayDate() {
         const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
@@ -205,50 +215,58 @@ h3 {
     }
     window.updateDisplay = updateDisplay;
 
-    // 核心提示函数 (已暴露)
+    // 核心提示函数 (已暴露) - 用于操作提示
     function addTip(text){
         const tipBox = document.getElementById('tipBox');
         const p = document.createElement('div');
-        const date = getCurrentDate();
+        // 使用本地显示日期
+        const date = getDisplayDate(); 
         p.innerText = `[${date}] ${text}`;
         tipBox.prepend(p);
     }
     window.addTip = addTip;
     
-    // 【新增】用于跨设备同步的全局变量
+    // 【重要】用于跨设备同步的全局变量
     window.lastDailyTipDate = "";
 
-    // 【新增】每日提示逻辑：确保每日只显示一次 “清晨微光”
-    function showDailyTip() {
-        const today = getCurrentDate(); 
+    // 【最终修复版本】 showDailyTip 函数
+    function showDailyTip(fromLoadGame = false) {
+        const todaySyncDate = getSyncDate();        // 例如 "2025-11-06" (用于同步)
+        const todayDisplayDate = getDisplayDate();  // 例如 "2025年11月6日" (用于显示)
         const dailyTip = "🌸 清晨微光，静候修行始。";
         const tipBox = document.getElementById('tipBox');
         
-        // 检查 tipBox 中是否已经有这条提示，以防止重复添加
-        const tipDivs = Array.from(tipBox.children).filter(child => child.id !== 'loginSection');
-        const hasInitialTip = tipDivs.some(div => div.innerText.includes(dailyTip));
+        // 逻辑：如果今天的同步日期与 Firebase 存档中的同步日期不同
+        // 无论屏幕上是否有历史记录，只要日期不同，就视为新的一天
+        if (window.lastDailyTipDate !== todaySyncDate) {
+            
+            // 1. 添加每日提示
+            const p = document.createElement('div');
+            // 关键：使用显示日期格式
+            p.innerText = `[${todayDisplayDate}] ${dailyTip}`; 
+            tipBox.prepend(p); 
+            console.log(`[${todaySyncDate}] 新的一天，已添加每日提示。`);
 
-        // 逻辑：如果今天与 Firebase 存档中的日期不同，并且提示框中还没有这条提示
-        if (window.lastDailyTipDate !== today && !hasInitialTip) {
-            // 如果是新的一天，添加每日提示
-            addTip(dailyTip); 
-            console.log("今日首次访问，已显示每日提示。");
+            // 2. 更新全局变量和 Firebase
+            window.lastDailyTipDate = todaySyncDate; // 存储 ISO 格式
             
-            // 更新全局变量
-            window.lastDailyTipDate = today;
-            
-            // 尝试自动保存（如果登录状态已知，将日期同步到云端）
             if (window.saveGameData) {
-                // isDateOnlySave=true, 表示仅保存日期，不弹出提示
+                // isDateOnlySave=true, 确保日期立即同步
                 window.saveGameData(true, true); 
             }
+        } 
+        // 只有当从 loadGame 过来，且提示框里除了登录区空了，才添加欢迎语
+        else if (fromLoadGame && Array.from(tipBox.children).filter(child => child.id !== 'loginSection').length === 0) {
+            addTip("🙏 存档加载完毕，继续您的修心之旅。");
         }
     }
     window.showDailyTip = showDailyTip; // 暴露给模块脚本使用
 
     // 首次显示初始化
     updateDisplay();
-    window.addEventListener('load', showDailyTip); // 页面加载后调用一次，以防未登录状态
+    // 页面加载后调用一次，以防未登录状态
+    window.addEventListener('load', () => showDailyTip(false)); 
+    
 
     // 📖 学习
     function study(){
@@ -422,9 +440,12 @@ h3 {
     function displayTips(tipsArray) {
         const tipBox = document.getElementById('tipBox');
         const loginSection = document.getElementById('loginSection');
+        
+        // 确保 loginSection 不被清空
+        const originalParent = loginSection.parentNode;
+        if (originalParent) originalParent.removeChild(loginSection); 
         tipBox.innerHTML = '';	
-
-        tipBox.appendChild(loginSection); // 重新将登录区放回末尾
+        if (originalParent) tipBox.appendChild(loginSection); // 重新将登录区放回末尾
 
         // 提示信息应该从下往上（时间顺序）显示
         [...tipsArray].reverse().forEach(tipText => {
@@ -463,7 +484,8 @@ h3 {
                 alert("注册成功，已为您保存初始进度！");
                 // 确保初始保存的是 0 分数据
                 Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
-                window.lastDailyTipDate = ""; // 首次注册，日期清空
+                // 使用 ISO 格式同步日期
+                window.lastDailyTipDate = getSyncDate(); 
                 if (window.updateDisplay) window.updateDisplay();
                 saveGameData(true);	
             })
@@ -495,8 +517,6 @@ h3 {
     }
 
     // 保存游戏数据和 Tips 到 Firestore
-    // isInitialSave: 注册或自动加载后的静默保存
-    // isDateOnlySave: 仅保存日期/状态，不弹出提示
     async function saveGameData(isInitialSave = false, isDateOnlySave = false) {
         if (!currentUser) {
             if (!isDateOnlySave) alert("请先登录或注册才能保存数据！");
@@ -511,12 +531,12 @@ h3 {
               return;
         }
         
-        // 准备要保存的数据对象
         const dataToSave = {
             attributes: window.attr,
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
-            lastDailyTipDate: window.lastDailyTipDate || "", // 【重要】保存日期变量
+            // 【关键】存储 ISO 格式的日期
+            lastDailyTipDate: window.lastDailyTipDate || "", 
         };
 
         try {
@@ -555,10 +575,13 @@ h3 {
                 }
                 
                 // 2. 加载每日提示日期
+                // 此时 window.lastDailyTipDate 中应是 ISO 格式 (e.g., "2025-11-06")
                 window.lastDailyTipDate = data.lastDailyTipDate || "";
 
-                // 3. 检查并显示每日提示 (会检查 today !== lastDailyTipDate)
-                if (window.showDailyTip) window.showDailyTip();
+                // ========== 调试提醒：若仍无法触发，请在 Firebase 中手动将 lastDailyTipDate 改为昨天的 ISO 格式（例如：2025-11-05）==========
+                
+                // 3. 检查并显示每日提示 (传入 true 表示是从加载存档过来的)
+                if (window.showDailyTip) window.showDailyTip(true); 
                 
             } else if (!isAutoLoad) {
                 alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
@@ -574,7 +597,7 @@ h3 {
     // *** 将模块内的函数暴露给全局作用域 ***
     window.registerWithEmail = registerWithEmail;
     window.loginWithEmail = loginWithEmail;
-    window.saveGameData = saveGameData; // 覆盖第一个 script 中未定义的 saveGameData
+    window.saveGameData = saveGameData;
 </script>
 
 </body>
