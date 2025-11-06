@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <title>修心养性记</title>
 <style>
+/* ... (CSS 样式保持不变) ... */
 body {
-    /* 样式部分保持不变 */
     background: #f8f4ef;
     font-family: "宋体";
     display: flex;
@@ -175,7 +175,6 @@ h3 {
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
         const day = now.getDate();
-        // 返回格式例如 "2025年11月6日"
         return `${year}年${month}月${day}日`;
     }
 
@@ -260,9 +259,8 @@ h3 {
     }
     window.showDailyTip = showDailyTip; // 暴露给模块脚本使用
 
-    // 首次显示初始化（不添加任何默认提示，等待 Firebase 加载或 showDailyTip 执行）
+    // 首次显示初始化
     updateDisplay();
-    // 页面加载后调用一次，以防未登录状态，且确保 showDailyTip 至少运行一次
     window.addEventListener('load', () => showDailyTip(false)); 
     
 
@@ -439,7 +437,7 @@ h3 {
         const tipBox = document.getElementById('tipBox');
         const loginSection = document.getElementById('loginSection');
         
-        // 【注意】这里必须确保 loginSection 是第一个被移除的，否则会被清空
+        // 确保 loginSection 不被清空
         const originalParent = loginSection.parentNode;
         if (originalParent) originalParent.removeChild(loginSection); 
         tipBox.innerHTML = '';	
@@ -514,8 +512,6 @@ h3 {
     }
 
     // 保存游戏数据和 Tips 到 Firestore
-    // isInitialSave: 注册或自动加载后的静默保存
-    // isDateOnlySave: 仅保存日期/状态，不弹出提示 (用于每日提示同步)
     async function saveGameData(isInitialSave = false, isDateOnlySave = false) {
         if (!currentUser) {
             if (!isDateOnlySave) alert("请先登录或注册才能保存数据！");
@@ -530,12 +526,11 @@ h3 {
               return;
         }
         
-        // 准备要保存的数据对象
         const dataToSave = {
             attributes: window.attr,
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
-            lastDailyTipDate: window.lastDailyTipDate || "", // 【重要】保存日期变量
+            lastDailyTipDate: window.lastDailyTipDate || "", // 保存日期变量
         };
 
         try {
@@ -555,46 +550,3 @@ h3 {
         const userDocRef = doc(db, "users", currentUser.uid);	
         
         try {
-            const docSnap = await getDoc(userDocRef);
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                
-                // 1. 加载属性和历史记录
-                if(data.attributes) {
-                    Object.assign(window.attr, data.attributes);	
-                    if (window.updateDisplay) window.updateDisplay();
-                }
-                if (data.tips && Array.isArray(data.tips)) {
-                    displayTips(data.tips);
-                } else {
-                    displayTips([]);
-                    const welcomeMsg = document.createElement('div');
-                    welcomeMsg.innerText = `[${new Date().toLocaleString('zh-CN')}] 欢迎回来，${currentUser.email}！未找到历史记录，请继续修行。`;
-                    document.getElementById('tipBox').prepend(welcomeMsg);
-                }
-                
-                // 2. 加载每日提示日期
-                window.lastDailyTipDate = data.lastDailyTipDate || "";
-
-                // 3. 检查并显示每日提示 (传入 true 表示是从加载存档过来的)
-                if (window.showDailyTip) window.showDailyTip(true); 
-                
-            } else if (!isAutoLoad) {
-                alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
-            }
-        } catch (e) {
-            console.error("数据读取失败：", e);
-            if (!isAutoLoad) {
-                alert("数据读取失败，请检查网络连接。");
-            }
-        }
-    }
-    
-    // *** 将模块内的函数暴露给全局作用域 ***
-    window.registerWithEmail = registerWithEmail;
-    window.loginWithEmail = loginWithEmail;
-    window.saveGameData = saveGameData;
-</script>
-
-</body>
-</html>
