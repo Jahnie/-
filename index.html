@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <title>修心养性记</title>
 <style>
-/* ... (CSS 样式保持不变) ... */
+/* ================================================= */
+/* 【CSS 样式：第二版修改】 - 恢复独立滚动区 */
+/* ================================================= */
 body {
     background: #f8f4ef;
     font-family: "宋体";
@@ -12,34 +14,51 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    height: 100vh;
+    /* 恢复 100vh 和 padding 来控制整体布局 */
+    height: 100vh; 
     padding: 20px;
 }
-#tipBox {
+
+/* 新增：日志和按钮的容器，用于控制独立滚动区域的高度 */
+#logContainer {
     width: 40%;
-    background: #fff8f2;
-    border: 2px solid #cbb8a5;
-    border-radius: 10px;
-    padding: 15px;
-    color: #5c4631;
-    line-height: 1.8;
-    font-size: 16px;
-    box-shadow: 0 0 6px #e0d1be;
-    height: 88.5vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column; 
+    height: 100%; 
 }
 
 #loginSection {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 0; /* 调整为 0 */
+    
     border: none;
-    background:#f9e6ea;
+    background: #f9e6ea;
     background-color: #f9e6ea;
     border: 1px solid #e4b6c2;
     color: #704848;
+    padding: 10px 15px; 
+    border-radius: 10px 10px 0 0; 
 }
+
+#tipBox {
+    /* tipBox 填充剩余空间 */
+    flex-grow: 1; 
+    
+    background: #fff8f2;
+    border: 2px solid #cbb8a5;
+    border-radius: 0 0 10px 10px; 
+    padding: 15px;
+    color: #5c4631;
+    line-height: 1.8;
+    font-size: 16px;
+    box-shadow: 0 0 6px #e0d1be;
+    
+    /* 恢复 tipBox 内部滚动 */
+    overflow-y: auto; 
+}
+
 #main {
     width: 50%;
     margin-left: 30px;
@@ -47,6 +66,8 @@ body {
     flex-direction: column;
     gap: 8px;
 }
+
+/* 其他样式保持不变 */
 button {
     background: #f9e6ea;
     border: none;
@@ -92,12 +113,15 @@ h3 {
 </head>
 <body>
 
-<div id="tipBox" class="tip-content">
+<div id="logContainer">
     <div id="loginSection">
         <button onclick="registerWithEmail()">注册</button>
         <button onclick="loginWithEmail()">登录</button>
         <button onclick="saveGameData()">保存进度</button>
     </div>
+
+    <div id="tipBox" class="tip-content">
+        </div>
 </div>
 
 <div id="main">
@@ -177,7 +201,7 @@ h3 {
         // 确保月份和日期是两位数 (例如 01, 09)
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`; 
+        return `${year}-${month}-${day}`;	
     }
 
     // 【新增】本地显示日期：用于在屏幕上给用户看 (YYYY年M月D日)
@@ -204,7 +228,7 @@ h3 {
 
     // 核心显示函数 (已暴露)
     function updateDisplay(){
-        document.getElementById('scoreBoard').innerText = 
+        document.getElementById('scoreBoard').innerText =	
             `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
         document.getElementById('healthVal').innerText = window.attr.health.toFixed(1);
         document.getElementById('staminaVal').innerText = window.attr.stamina.toFixed(1);
@@ -220,7 +244,7 @@ h3 {
         const tipBox = document.getElementById('tipBox');
         const p = document.createElement('div');
         // 使用本地显示日期
-        const date = getDisplayDate(); 
+        const date = getDisplayDate();	
         p.innerText = `[${date}] ${text}`;
         tipBox.prepend(p);
     }
@@ -231,8 +255,8 @@ h3 {
 
     // 【最终修复版本】 showDailyTip 函数
     function showDailyTip(fromLoadGame = false) {
-        const todaySyncDate = getSyncDate();        // 例如 "2025-11-06" (用于同步)
-        const todayDisplayDate = getDisplayDate();  // 例如 "2025年11月6日" (用于显示)
+        const todaySyncDate = getSyncDate();	 	// 例如 "2025-11-06" (用于同步)
+        const todayDisplayDate = getDisplayDate();	// 例如 "2025年11月6日" (用于显示)
         const dailyTip = "🌸 清晨微光，静候修行始。";
         const tipBox = document.getElementById('tipBox');
         
@@ -243,8 +267,8 @@ h3 {
             // 1. 添加每日提示
             const p = document.createElement('div');
             // 关键：使用显示日期格式
-            p.innerText = `[${todayDisplayDate}] ${dailyTip}`; 
-            tipBox.prepend(p); 
+            p.innerText = `[${todayDisplayDate}] ${dailyTip}`;	
+            tipBox.prepend(p);	
             console.log(`[${todaySyncDate}] 新的一天，已添加每日提示。`);
 
             // 2. 更新全局变量和 Firebase
@@ -252,11 +276,11 @@ h3 {
             
             if (window.saveGameData) {
                 // isDateOnlySave=true, 确保日期立即同步
-                window.saveGameData(true, true); 
+                window.saveGameData(true, true);	
             }
-        } 
-        // 只有当从 loadGame 过来，且提示框里除了登录区空了，才添加欢迎语
-        else if (fromLoadGame && Array.from(tipBox.children).filter(child => child.id !== 'loginSection').length === 0) {
+        }	
+        // 只有当从 loadGame 过来，且提示框里空了，才添加欢迎语
+        else if (fromLoadGame && tipBox.children.length === 0) {
             addTip("🙏 存档加载完毕，继续您的修心之旅。");
         }
     }
@@ -265,7 +289,7 @@ h3 {
     // 首次显示初始化
     updateDisplay();
     // 页面加载后调用一次，以防未登录状态
-    window.addEventListener('load', () => showDailyTip(false)); 
+    window.addEventListener('load', () => showDailyTip(false));	
     
 
     // 📖 学习
@@ -428,24 +452,20 @@ h3 {
 
     let currentUser = null;
     
+    // 【JS 函数修改】
     function getTipsFromDisplay() {
         const tipBox = document.getElementById('tipBox');
-        const children = Array.from(tipBox.children);
-        // 只获取除了 #loginSection 之外的 div
-        const tipDivs = children.filter(child => child.id !== 'loginSection');
-        // 由于我们使用 prepend 添加提示，我们需要以正确的顺序保存它们（从上到下）
-        return tipDivs.map(child => child.innerText);
+        // 现在 tipBox 内部就是所有日志 div
+        const children = Array.from(tipBox.children); 
+        return children.map(child => child.innerText);
     }
     
+    // 【JS 函数修改】
     function displayTips(tipsArray) {
         const tipBox = document.getElementById('tipBox');
-        const loginSection = document.getElementById('loginSection');
         
-        // 确保 loginSection 不被清空
-        const originalParent = loginSection.parentNode;
-        if (originalParent) originalParent.removeChild(loginSection); 
+        // 直接清空 tipBox
         tipBox.innerHTML = '';	
-        if (originalParent) tipBox.appendChild(loginSection); // 重新将登录区放回末尾
 
         // 提示信息应该从下往上（时间顺序）显示
         [...tipsArray].reverse().forEach(tipText => {
@@ -485,7 +505,7 @@ h3 {
                 // 确保初始保存的是 0 分数据
                 Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
                 // 使用 ISO 格式同步日期
-                window.lastDailyTipDate = getSyncDate(); 
+                window.lastDailyTipDate = getSyncDate();	
                 if (window.updateDisplay) window.updateDisplay();
                 saveGameData(true);	
             })
@@ -536,7 +556,7 @@ h3 {
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
             // 【关键】存储 ISO 格式的日期
-            lastDailyTipDate: window.lastDailyTipDate || "", 
+            lastDailyTipDate: window.lastDailyTipDate || "",	
         };
 
         try {
@@ -581,7 +601,7 @@ h3 {
                 // ========== 调试提醒：若仍无法触发，请在 Firebase 中手动将 lastDailyTipDate 改为昨天的 ISO 格式（例如：2025-11-05）==========
                 
                 // 3. 检查并显示每日提示 (传入 true 表示是从加载存档过来的)
-                if (window.showDailyTip) window.showDailyTip(true); 
+                if (window.showDailyTip) window.showDailyTip(true);	
                 
             } else if (!isAutoLoad) {
                 alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
