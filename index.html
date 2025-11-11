@@ -5,7 +5,7 @@
 <title>修心养性记</title>
 <style>
 /* ================================================= */
-/* 【CSS 样式：第二版修改】 - 恢复独立滚动区 */
+/* 【CSS 样式：最终版本】 */
 /* ================================================= */
 body {
     background: #f8f4ef;
@@ -15,7 +15,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     /* 恢复 100vh 和 padding 来控制整体布局 */
-    height: 100vh; 
+    height: 100vh;
     padding: 20px;
 }
 
@@ -23,32 +23,32 @@ body {
 #logContainer {
     width: 40%;
     display: flex;
-    flex-direction: column; 
-    height: 100%; 
+    flex-direction: column;
+    height: 100%;
 }
 
 #loginSection {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 0; /* 调整为 0 */
+    margin-top: 0;
     
     border: none;
     background: #f9e6ea;
     background-color: #f9e6ea;
     border: 1px solid #e4b6c2;
     color: #704848;
-    padding: 10px 15px; 
-    border-radius: 10px 10px 0 0; 
+    padding: 10px 15px;
+    border-radius: 10px 10px 0 0;
 }
 
 #tipBox {
     /* tipBox 填充剩余空间 */
-    flex-grow: 1; 
+    flex-grow: 1;
     
     background: #fff8f2;
     border: 2px solid #cbb8a5;
-    border-radius: 0 0 10px 10px; 
+    border-radius: 0 0 10px 10px;
     padding: 15px;
     color: #5c4631;
     line-height: 1.8;
@@ -56,7 +56,7 @@ body {
     box-shadow: 0 0 6px #e0d1be;
     
     /* 恢复 tipBox 内部滚动 */
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 #main {
@@ -109,6 +109,22 @@ h3 {
     margin: 0px 0 7px;
     padding-left: 10px;
 }
+
+/* 新增：目标面板样式 */
+#goalBoard {
+    background: #fdf5f5; /* 浅粉色背景，区别于属性面板 */
+    border: 1px dashed #d6b4b4; /* 虚线边框 */
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #8b5757; /* 略红的字体颜色 */
+}
+#goalBoard h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #a04040;
+}
 </style>
 </head>
 <body>
@@ -135,6 +151,12 @@ h3 {
         <div class="attr-line"><span>📜 悟性：</span><span id="wisdomVal">0</span></div>
     </div>
 
+    <div id="goalBoard">
+        <h4>🎯 目标：西学入道</h4>
+        <div id="westernMedTitleDisplay"></div>
+        <div id="westernMedGoalDisplay"></div>
+    </div>
+    
     <div class="section">
         <h3>📖 学习</h3>
         <select id="subject">
@@ -193,8 +215,20 @@ h3 {
         wisdom: 0
     };
     
+    // 2. 定义全局目标/状态对象
+    window.goal = {
+        // 西医学目标：学习 50 小时
+        westernMedStudyHours: 0, 
+        // 稀有称号
+        rareTitle: "" 
+    };
+    // 目标常量
+    const WESTERN_MED_GOAL = 50;
+    const RARE_TITLE_NAME = "★ 天涯医女 ★";
+
+
     // 工具函数
-    // 【新增/修改】用于跨设备同步的日期格式 (YYYY-MM-DD)
+    // 用于跨设备同步的日期格式 (YYYY-MM-DD)
     function getSyncDate() {
         const now = new Date();
         const year = now.getFullYear();
@@ -204,7 +238,7 @@ h3 {
         return `${year}-${month}-${day}`;	
     }
 
-    // 【新增】本地显示日期：用于在屏幕上给用户看 (YYYY年M月D日)
+    // 本地显示日期：用于在屏幕上给用户看 (YYYY年M月D日)
     function getDisplayDate() {
         const now = new Date();
         const year = now.getFullYear();
@@ -225,17 +259,45 @@ h3 {
         if(t>=30) return "才女";
         return "婉女";
     }
+    
+    // 目标进度显示函数 (已修改：明确显示稀有称号状态)
+    function updateGoalDisplay(){
+        const currentHours = window.goal.westernMedStudyHours;
+        const goalHours = WESTERN_MED_GOAL;
+        const display = document.getElementById('westernMedGoalDisplay');
+        const titleDisplay = document.getElementById('westernMedTitleDisplay');
+        
+        // 称号显示逻辑
+        if(window.goal.rareTitle === RARE_TITLE_NAME){
+            // 已获得称号
+            titleDisplay.innerHTML = `<span style="color:red; font-weight:bold;">稀有称号：${RARE_TITLE_NAME} (已获得)</span>`;
+            display.innerText = `西医学进度：已达成（${currentHours.toFixed(2)} / ${goalHours} 小时）`;
+        } else {
+            // 未获得称号
+            titleDisplay.innerText = `稀有称号：${RARE_TITLE_NAME} (未获得)`; // 明确显示未获得
+            display.innerText = `西医学进度：${Math.min(currentHours, goalHours).toFixed(2)} / ${goalHours} 小时`;
+        }
+    }
+
 
     // 核心显示函数 (已暴露)
     function updateDisplay(){
-        document.getElementById('scoreBoard').innerText =	
-            `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
+        let scoreTitle = `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
+        // 如果获得了稀有称号，显示在积分板上
+        if (window.goal.rareTitle) {
+            scoreTitle += `　${window.goal.rareTitle}`;
+        }
+
+        document.getElementById('scoreBoard').innerText = scoreTitle;
         document.getElementById('healthVal').innerText = window.attr.health.toFixed(1);
         document.getElementById('staminaVal').innerText = window.attr.stamina.toFixed(1);
         document.getElementById('tidinessVal').innerText = window.attr.tidiness.toFixed(1);
         document.getElementById('willVal').innerText = window.attr.will.toFixed(1);
         document.getElementById('mindVal').innerText = window.attr.mind.toFixed(1);
         document.getElementById('wisdomVal').innerText = window.attr.wisdom.toFixed(1);
+        
+        // 更新目标进度显示
+        updateGoalDisplay();
     }
     window.updateDisplay = updateDisplay;
 
@@ -250,7 +312,7 @@ h3 {
     }
     window.addTip = addTip;
     
-    // 【重要】用于跨设备同步的全局变量
+    // 用于跨设备同步的全局变量
     window.lastDailyTipDate = "";
 
     // 【最终修复版本】 showDailyTip 函数
@@ -261,7 +323,6 @@ h3 {
         const tipBox = document.getElementById('tipBox');
         
         // 逻辑：如果今天的同步日期与 Firebase 存档中的同步日期不同
-        // 无论屏幕上是否有历史记录，只要日期不同，就视为新的一天
         if (window.lastDailyTipDate !== todaySyncDate) {
             
             // 1. 添加每日提示
@@ -292,7 +353,16 @@ h3 {
     window.addEventListener('load', () => showDailyTip(false));	
     
 
-    // 📖 学习
+    // 西医学目标检测函数
+    function checkWesternMedGoal() {
+        if (window.goal.westernMedStudyHours >= WESTERN_MED_GOAL && window.goal.rareTitle === "") {
+            window.goal.rareTitle = RARE_TITLE_NAME;
+            addTip(`🎉 **恭喜！您已成功完成西学入道 ${WESTERN_MED_GOAL} 小时研习，获得稀有称号【${RARE_TITLE_NAME}】！**`);
+        }
+    }
+
+
+    // 📖 学习 
     function study(){
         const subject = document.getElementById('subject').value;
         let hour = parseFloat(document.getElementById('studyHour').value) || 0;
@@ -303,7 +373,14 @@ h3 {
         let gain = totalHour * 3;
         window.attr.wisdom += gain;
         window.attr.will += gain * 0.5;
-
+        
+        // 追踪西医学学习时长
+        if (subject === '西医学') {
+            window.goal.westernMedStudyHours += totalHour;
+            // 检查是否达成目标
+            checkWesternMedGoal();
+        }
+        
         // 随机选择古风提示
         const studyTips = [
             `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
@@ -401,12 +478,23 @@ h3 {
     }
     window.clean = clean;
 
-    // 🪞 仪容
+    // 🪞 仪容 (只加整洁)
     function groom(type){
         let tip;
-        if(type==="化妆"){window.attr.will += 1; tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。";}
-        if(type==="刷牙"){window.attr.health += 0.5; tip = "清晨盥洗，齿白如玉，精神焕发，健康＋0.5。";}
-        if(type==="洗澡"){window.attr.health += 1; tip = "温泉轻雾，洗去疲乏，身心俱净，健康＋1。";}
+        if(type==="化妆"){
+            window.attr.will += 1; 
+            tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。";
+        }
+        if(type==="刷牙"){
+            // 刷牙：只增加整洁
+            window.attr.tidiness += 0.5; 
+            tip = "口齿清芬，如玉生辉，整洁＋0.5。";
+        }
+        if(type==="洗澡"){
+            // 洗澡：只增加整洁
+            window.attr.tidiness += 1; 
+            tip = "温泉轻雾，洗去疲乏，身心俱净，整洁＋1。";
+        }
         addTip(tip);
         updateDisplay();
     }
@@ -436,7 +524,7 @@ h3 {
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Firebase 配置
+    // Firebase 配置 (请确认这些信息是否正确)
     const firebaseConfig = {
       apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
       authDomain: "mylifeproject-4712e.firebaseapp.com",
@@ -452,15 +540,15 @@ h3 {
 
     let currentUser = null;
     
-    // 【JS 函数修改】
+    // 【JS 函数】获取屏幕上的 Tips
     function getTipsFromDisplay() {
         const tipBox = document.getElementById('tipBox');
         // 现在 tipBox 内部就是所有日志 div
-        const children = Array.from(tipBox.children); 
+        const children = Array.from(tipBox.children);	
         return children.map(child => child.innerText);
     }
     
-    // 【JS 函数修改】
+    // 【JS 函数】将 Tips 数组显示到屏幕上
     function displayTips(tipsArray) {
         const tipBox = document.getElementById('tipBox');
         
@@ -502,10 +590,11 @@ h3 {
             .then((userCredential) => {
                 currentUser = userCredential.user;
                 alert("注册成功，已为您保存初始进度！");
-                // 确保初始保存的是 0 分数据
+                // 确保初始保存的是 0 分数据和 0 进度
                 Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
+                Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
                 // 使用 ISO 格式同步日期
-                window.lastDailyTipDate = getSyncDate();	
+                window.lastDailyTipDate = window.getSyncDate();	
                 if (window.updateDisplay) window.updateDisplay();
                 saveGameData(true);	
             })
@@ -553,9 +642,11 @@ h3 {
         
         const dataToSave = {
             attributes: window.attr,
+            // 保存目标进度
+            goals: window.goal, 
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
-            // 【关键】存储 ISO 格式的日期
+            // 存储 ISO 格式的日期
             lastDailyTipDate: window.lastDailyTipDate || "",	
         };
 
@@ -580,11 +671,20 @@ h3 {
             if (docSnap.exists()) {
                 const data = docSnap.data();
                 
-                // 1. 加载属性和历史记录
+                // 1. 加载属性、目标和历史记录
                 if(data.attributes) {
                     Object.assign(window.attr, data.attributes);	
-                    if (window.updateDisplay) window.updateDisplay();
                 }
+                // 加载目标进度，确保兼容旧存档（使用 || {}）
+                if(data.goals) {
+                    Object.assign(window.goal, data.goals);
+                } else {
+                    // 如果旧存档没有 goals，则初始化为 0
+                    Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
+                }
+
+                if (window.updateDisplay) window.updateDisplay(); // 更新显示（包括新的目标进度）
+
                 if (data.tips && Array.isArray(data.tips)) {
                     displayTips(data.tips);
                 } else {
@@ -595,11 +695,8 @@ h3 {
                 }
                 
                 // 2. 加载每日提示日期
-                // 此时 window.lastDailyTipDate 中应是 ISO 格式 (e.g., "2025-11-06")
                 window.lastDailyTipDate = data.lastDailyTipDate || "";
 
-                // ========== 调试提醒：若仍无法触发，请在 Firebase 中手动将 lastDailyTipDate 改为昨天的 ISO 格式（例如：2025-11-05）==========
-                
                 // 3. 检查并显示每日提示 (传入 true 表示是从加载存档过来的)
                 if (window.showDailyTip) window.showDailyTip(true);	
                 
