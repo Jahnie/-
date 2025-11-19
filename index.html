@@ -7,124 +7,20 @@
 /* ================================================= */
 /* 【CSS 样式：最终版本】 */
 /* ================================================= */
-body {
-    background: #f8f4ef;
-    font-family: "宋体";
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    /* 恢复 100vh 和 padding 来控制整体布局 */
-    height: 100vh;
-    padding: 20px;
-}
-
-/* 新增：日志和按钮的容器，用于控制独立滚动区域的高度 */
-#logContainer {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-#loginSection {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 0;
-    
-    border: none;
-    background: #f9e6ea;
-    background-color: #f9e6ea;
-    border: 1px solid #e4b6c2;
-    color: #704848;
-    padding: 10px 15px;
-    border-radius: 10px 10px 0 0;
-}
-
-#tipBox {
-    /* tipBox 填充剩余空间 */
-    flex-grow: 1;
-    
-    background: #fff8f2;
-    border: 2px solid #cbb8a5;
-    border-radius: 0 0 10px 10px;
-    padding: 15px;
-    color: #5c4631;
-    line-height: 1.8;
-    font-size: 16px;
-    box-shadow: 0 0 6px #e0d1be;
-    
-    /* 恢复 tipBox 内部滚动 */
-    overflow-y: auto;
-}
-
-#main {
-    width: 50%;
-    margin-left: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* 其他样式保持不变 */
-button {
-    background: #f9e6ea;
-    border: none;
-    padding: 2px 7px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
-button:hover {
-    background: #d7c1a8;
-}
-.section {
-    background: #fffdf8;
-    border: 1px solid #d2c0a8;
-    border-radius: 3px;
-    padding: 15px;
-}
-#scoreBoard {
-    font-weight: bold;
-    color: #4b3823;
-    margin-bottom: 5px;
-}
-#attrBoard {
-    background: #fefaf5;
-    border: 1px solid #d6c4aa;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 8px;
-    font-size: 15px;
-    color: #5c4631;
-}
-.attr-line {
-    display: flex;
-    justify-content: space-between;
-    padding: 2px 0;
-}
-h3 {
-    font-size: 18px;
-    margin: 0px 0 7px;
-    padding-left: 10px;
-}
-
-/* 新增：目标面板样式 */
-#goalBoard {
-    background: #fdf5f5; /* 浅粉色背景，区别于属性面板 */
-    border: 1px dashed #d6b4b4; /* 虚线边框 */
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 8px;
-    font-size: 15px;
-    color: #8b5757; /* 略红的字体颜色 */
-}
-#goalBoard h4 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-    color: #a04040;
-}
+body { background: #f8f4ef; font-family: "宋体"; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; height: 100vh; padding: 20px;}
+#logContainer { width: 40%; display: flex; flex-direction: column; height: 100%;}
+#loginSection { display: flex; justify-content: center; gap: 10px; margin-top: 0; border: none; background: #f9e6ea; background-color: #f9e6ea; border: 1px solid #e4b6c2; color: #704848; padding: 10px 15px; border-radius: 10px 10px 0 0;}
+#tipBox { flex-grow: 1; background: #fff8f2; border: 2px solid #cbb8a5; border-radius: 0 0 10px 10px; padding: 15px; color: #5c4631; line-height: 1.8; font-size: 16px; box-shadow: 0 0 6px #e0d1be; overflow-y: auto;}
+#main { width: 50%; margin-left: 30px; display: flex; flex-direction: column; gap: 8px;}
+button { background: #f9e6ea; border: none; padding: 2px 7px; border-radius: 8px; cursor: pointer; font-size: 14px;}
+button:hover { background: #d7c1a8;}
+.section { background: #fffdf8; border: 1px solid #d2c0a8; border-radius: 3px; padding: 15px;}
+#scoreBoard { font-weight: bold; color: #4b3823; margin-bottom: 5px;}
+#attrBoard { background: #fefaf5; border: 1px solid #d6c4aa; border-radius: 10px; padding: 10px; margin-bottom: 8px; font-size: 15px; color: #5c4631;}
+.attr-line { display: flex; justify-content: space-between; padding: 2px 0;}
+h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
+#goalBoard { background: #fdf5f5; border: 1px dashed #d6b4b4; border-radius: 10px; padding: 10px; margin-bottom: 8px; font-size: 15px; color: #8b5757; }
+#goalBoard h4 { margin: 0 0 5px 0; font-size: 16px; color: #a04040;}
 </style>
 </head>
 <body>
@@ -135,9 +31,7 @@ h3 {
         <button onclick="loginWithEmail()">登录</button>
         <button onclick="saveGameData()">保存进度</button>
     </div>
-
-    <div id="tipBox" class="tip-content">
-        </div>
+    <div id="tipBox" class="tip-content"></div>
 </div>
 
 <div id="main">
@@ -156,7 +50,7 @@ h3 {
         <div id="westernMedTitleDisplay"></div>
         <div id="westernMedGoalDisplay"></div>
     </div>
-    
+
     <div class="section">
         <h3>📖 学习</h3>
         <select id="subject">
@@ -202,43 +96,31 @@ h3 {
         <h3>🕉️ 念经</h3>
         <button onclick="chant()">念经修行</button>
         <button onclick="noChant()">怠慢修行</button>
-        </div>
+    </div>
 </div>
+
 <script>
     // 1. 定义全局属性对象
-    window.attr = {
-        health: 0,
-        stamina: 0,
-        tidiness: 0,
-        will: 0,
-        mind: 0,
-        wisdom: 0
-    };
+    window.attr = { health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0 };
     
     // 2. 定义全局目标/状态对象
     window.goal = {
-        // 西医学目标：学习 50 小时
         westernMedStudyHours: 0, 
-        // 稀有称号
         rareTitle: "" 
     };
     // 目标常量
     const WESTERN_MED_GOAL = 50;
     const RARE_TITLE_NAME = "★ 天涯医女 ★";
 
-
     // 工具函数
-    // 用于跨设备同步的日期格式 (YYYY-MM-DD)
     function getSyncDate() {
         const now = new Date();
         const year = now.getFullYear();
-        // 确保月份和日期是两位数 (例如 01, 09)
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;	
+        return `${year}-${month}-${day}`;
     }
 
-    // 本地显示日期：用于在屏幕上给用户看 (YYYY年M月D日)
     function getDisplayDate() {
         const now = new Date();
         const year = now.getFullYear();
@@ -260,34 +142,26 @@ h3 {
         return "婉女";
     }
     
-    // 目标进度显示函数 (已修改：明确显示稀有称号状态)
     function updateGoalDisplay(){
         const currentHours = window.goal.westernMedStudyHours;
         const goalHours = WESTERN_MED_GOAL;
         const display = document.getElementById('westernMedGoalDisplay');
         const titleDisplay = document.getElementById('westernMedTitleDisplay');
         
-        // 称号显示逻辑
         if(window.goal.rareTitle === RARE_TITLE_NAME){
-            // 已获得称号
             titleDisplay.innerHTML = `<span style="color:red; font-weight:bold;">稀有称号：${RARE_TITLE_NAME} (已获得)</span>`;
             display.innerText = `西医学进度：已达成（${currentHours.toFixed(2)} / ${goalHours} 小时）`;
         } else {
-            // 未获得称号
-            titleDisplay.innerText = `稀有称号：${RARE_TITLE_NAME} (未获得)`; // 明确显示未获得
+            titleDisplay.innerText = `稀有称号：${RARE_TITLE_NAME} (未获得)`; 
             display.innerText = `西医学进度：${Math.min(currentHours, goalHours).toFixed(2)} / ${goalHours} 小时`;
         }
     }
 
-
-    // 核心显示函数 (已暴露)
     function updateDisplay(){
         let scoreTitle = `当前等级：${levelName()}　总积分：${Math.round(totalScore())}`;
-        // 如果获得了稀有称号，显示在积分板上
         if (window.goal.rareTitle) {
             scoreTitle += `　${window.goal.rareTitle}`;
         }
-
         document.getElementById('scoreBoard').innerText = scoreTitle;
         document.getElementById('healthVal').innerText = window.attr.health.toFixed(1);
         document.getElementById('staminaVal').innerText = window.attr.stamina.toFixed(1);
@@ -295,65 +169,46 @@ h3 {
         document.getElementById('willVal').innerText = window.attr.will.toFixed(1);
         document.getElementById('mindVal').innerText = window.attr.mind.toFixed(1);
         document.getElementById('wisdomVal').innerText = window.attr.wisdom.toFixed(1);
-        
-        // 更新目标进度显示
         updateGoalDisplay();
     }
     window.updateDisplay = updateDisplay;
 
-    // 核心提示函数 (已暴露) - 用于操作提示
     function addTip(text){
         const tipBox = document.getElementById('tipBox');
         const p = document.createElement('div');
-        // 使用本地显示日期
-        const date = getDisplayDate();	
+        const date = getDisplayDate();  
         p.innerText = `[${date}] ${text}`;
         tipBox.prepend(p);
     }
     window.addTip = addTip;
     
-    // 用于跨设备同步的全局变量
     window.lastDailyTipDate = "";
 
-    // 【最终修复版本】 showDailyTip 函数
     function showDailyTip(fromLoadGame = false) {
-        const todaySyncDate = getSyncDate();	 	// 例如 "2025-11-06" (用于同步)
-        const todayDisplayDate = getDisplayDate();	// 例如 "2025年11月6日" (用于显示)
+        const todaySyncDate = getSyncDate();
+        const todayDisplayDate = getDisplayDate();
         const dailyTip = "🌸 清晨微光，静候修行始。";
         const tipBox = document.getElementById('tipBox');
         
-        // 逻辑：如果今天的同步日期与 Firebase 存档中的同步日期不同
         if (window.lastDailyTipDate !== todaySyncDate) {
-            
-            // 1. 添加每日提示
             const p = document.createElement('div');
-            // 关键：使用显示日期格式
-            p.innerText = `[${todayDisplayDate}] ${dailyTip}`;	
-            tipBox.prepend(p);	
+            p.innerText = `[${todayDisplayDate}] ${dailyTip}`;
+            tipBox.prepend(p);
             console.log(`[${todaySyncDate}] 新的一天，已添加每日提示。`);
-
-            // 2. 更新全局变量和 Firebase
-            window.lastDailyTipDate = todaySyncDate; // 存储 ISO 格式
-            
+            window.lastDailyTipDate = todaySyncDate;
             if (window.saveGameData) {
-                // isDateOnlySave=true, 确保日期立即同步
-                window.saveGameData(true, true);	
+                window.saveGameData(true, true);
             }
-        }	
-        // 只有当从 loadGame 过来，且提示框里空了，才添加欢迎语
+        }   
         else if (fromLoadGame && tipBox.children.length === 0) {
             addTip("🙏 存档加载完毕，继续您的修心之旅。");
         }
     }
-    window.showDailyTip = showDailyTip; // 暴露给模块脚本使用
+    window.showDailyTip = showDailyTip;
 
-    // 首次显示初始化
     updateDisplay();
-    // 页面加载后调用一次，以防未登录状态
-    window.addEventListener('load', () => showDailyTip(false));	
+    window.addEventListener('load', () => showDailyTip(false)); 
     
-
-    // 西医学目标检测函数
     function checkWesternMedGoal() {
         if (window.goal.westernMedStudyHours >= WESTERN_MED_GOAL && window.goal.rareTitle === "") {
             window.goal.rareTitle = RARE_TITLE_NAME;
@@ -361,27 +216,19 @@ h3 {
         }
     }
 
-
-    // 📖 学习 
     function study(){
         const subject = document.getElementById('subject').value;
         let hour = parseFloat(document.getElementById('studyHour').value) || 0;
         let min = parseFloat(document.getElementById('studyMin').value) || 0;
         let totalHour = hour + min/60;
         if(totalHour <= 0){ addTip("无心于书卷，时光悄然溜走……"); return; }
-
         let gain = totalHour * 3;
         window.attr.wisdom += gain;
         window.attr.will += gain * 0.5;
-        
-        // 追踪西医学学习时长
         if (subject === '西医学') {
             window.goal.westernMedStudyHours += totalHour;
-            // 检查是否达成目标
             checkWesternMedGoal();
         }
-        
-        // 随机选择古风提示
         const studyTips = [
             `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
             `轻启书卷，春风拂面，研习《${subject}》有成，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
@@ -401,7 +248,6 @@ h3 {
     }
     window.noStudy = noStudy;
 
-    // 🥣 饮食
     function eat(type){
         if(type === '健康'){
             window.attr.health += 1;
@@ -414,54 +260,33 @@ h3 {
     }
     window.eat = eat;
 
-    // 💪 运动
     function exercise(type){
         let tip;
         if(type === "持重锻体"){
             window.attr.stamina += 1.5;
             window.attr.health += 1;
-            tip = [
-                "举铁如山，气血畅通，体力＋1.5，健康＋1。",
-                "沉心锤炼，筋骨舒展，体力＋1.5，健康＋1。",
-                "力行锻体，气血流畅，体力＋1.5，健康＋1。"
-            ];
+            tip = [ "举铁如山，气血畅通，体力＋1.5，健康＋1。", "沉心锤炼，筋骨舒展，体力＋1.5，健康＋1。", "力行锻体，气血流畅，体力＋1.5，健康＋1。" ];
         }
-
         if(type === "修身养性"){
             window.attr.stamina += 1;
             window.attr.will += 0.5;
-            tip = [
-                "轻舒腰肢，气定神闲，体力＋1，意志＋0.5。",
-                "腰身轻旋，心静如水，体力＋1，意志＋0.5。",
-                "静心养性，舒展身心，体力＋1，意志＋0.5。"
-            ];
+            tip = [ "轻舒腰肢，气定神闲，体力＋1，意志＋0.5。", "腰身轻旋，心静如水，体力＋1，意志＋0.5。", "静心养性，舒展身心，体力＋1，意志＋0.5。" ];
         }
-
         if(type === "舒筋活络"){
             window.attr.health += 1;
             window.attr.mind += 0.5;
-            tip = [
-                "筋骨舒展，心境清宁，健康＋1，心性＋0.5。",
-                "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。",
-                "筋骨畅通，气血流动，健康＋1，心性＋0.5。"
-            ];
+            tip = [ "筋骨舒展，心境清宁，健康＋1，心性＋0.5。", "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。", "筋骨畅通，气血流动，健康＋1，心性＋0.5。" ];
         }
-
         if(type === "舞动风华"){
             window.attr.stamina += 1.2;
             window.attr.health += 0.7;
-            tip = [
-                "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。",
-                "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。",
-                "舞姿翩跹，气血顺畅，体力＋1.2，健康＋0.7。"
-            ];
+            tip = [ "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。", "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。", "舞姿翩跹，气血顺畅，体力＋1.2，健康＋0.7。" ];
         }
         addTip(tip[Math.floor(Math.random() * tip.length)]);
         updateDisplay();
     }
     window.exercise = exercise;
 
-    // 🏡 日常
     function cook(){
         window.attr.health += 1;
         window.attr.will += 0.5;
@@ -478,29 +303,16 @@ h3 {
     }
     window.clean = clean;
 
-    // 🪞 仪容 (只加整洁)
     function groom(type){
         let tip;
-        if(type==="化妆"){
-            window.attr.will += 1; 
-            tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。";
-        }
-        if(type==="刷牙"){
-            // 刷牙：只增加整洁
-            window.attr.tidiness += 0.5; 
-            tip = "口齿清芬，如玉生辉，整洁＋0.5。";
-        }
-        if(type==="洗澡"){
-            // 洗澡：只增加整洁
-            window.attr.tidiness += 1; 
-            tip = "温泉轻雾，洗去疲乏，身心俱净，整洁＋1。";
-        }
+        if(type==="化妆"){ window.attr.will += 1; tip = "轻施粉黛，明眸善睐，神采奕奕，意志＋1。"; }
+        if(type==="刷牙"){ window.attr.tidiness += 0.5; tip = "口齿清芬，如玉生辉，整洁＋0.5。"; }
+        if(type==="洗澡"){ window.attr.tidiness += 1; tip = "温泉轻雾，洗去疲乏，身心俱净，整洁＋1。"; }
         addTip(tip);
         updateDisplay();
     }
     window.groom = groom;
 
-    // 🕉️ 念经
     function chant(){
         window.attr.mind += 0.5;
         window.attr.will += 0.5;
@@ -518,13 +330,11 @@ h3 {
     window.noChant = noChant;
 </script>
 
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Firebase 配置 (请确认这些信息是否正确)
     const firebaseConfig = {
       apiKey: "AIzaSyAaLeQq_L5JUSQpZ_0jQlHeWm3pXnoxd5g",
       authDomain: "mylifeproject-4712e.firebaseapp.com",
@@ -537,47 +347,38 @@ h3 {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore(app);
-
     let currentUser = null;
-    
-    // 【JS 函数】获取屏幕上的 Tips
+    let isDataLoaded = false; // 【安全锁：标记数据是否已加载】
+
     function getTipsFromDisplay() {
         const tipBox = document.getElementById('tipBox');
-        // 现在 tipBox 内部就是所有日志 div
-        const children = Array.from(tipBox.children);	
+        const children = Array.from(tipBox.children);
         return children.map(child => child.innerText);
     }
-    
-    // 【JS 函数】将 Tips 数组显示到屏幕上
+
     function displayTips(tipsArray) {
         const tipBox = document.getElementById('tipBox');
-        
-        // 直接清空 tipBox
-        tipBox.innerHTML = '';	
-
-        // 提示信息应该从下往上（时间顺序）显示
+        tipBox.innerHTML = '';
         [...tipsArray].reverse().forEach(tipText => {
             const p = document.createElement('div');
             p.innerText = tipText;
-            tipBox.prepend(p); // 使用 prepend 确保最新提示在最上面
+            tipBox.prepend(p);
         });
-        
         const greeting = document.createElement('div');
         greeting.innerText = `--- [${new Date().toLocaleString('zh-CN')}] 存档加载完成 ---`;
         tipBox.prepend(greeting);
     }
 
-    // 监听认证状态
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
             loadGameData(true);
         } else {
             currentUser = null;
+            isDataLoaded = false;
         }
     });
 
-    // 使用邮箱注册
     function registerWithEmail() {
         const email = prompt("请输入您的邮箱");
         const password = prompt("请输入您的密码（至少6位）");
@@ -585,18 +386,16 @@ h3 {
             alert("邮箱和密码不能为空！");
             return;
         }
-
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 currentUser = userCredential.user;
                 alert("注册成功，已为您保存初始进度！");
-                // 确保初始保存的是 0 分数据和 0 进度
                 Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
                 Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
-                // 使用 ISO 格式同步日期
-                window.lastDailyTipDate = window.getSyncDate();	
+                window.lastDailyTipDate = window.getSyncDate();
                 if (window.updateDisplay) window.updateDisplay();
-                saveGameData(true);	
+                isDataLoaded = true; // 注册新号，视为数据已就绪
+                saveGameData(true);
             })
             .catch((error) => {
                 console.error("注册失败", error);
@@ -604,7 +403,6 @@ h3 {
             });
     }
 
-    // 使用邮箱登录
     function loginWithEmail() {
         const email = prompt("请输入您的邮箱");
         const password = prompt("请输入您的密码");
@@ -612,12 +410,11 @@ h3 {
             alert("邮箱和密码不能为空！");
             return;
         }
-
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 currentUser = userCredential.user;
-                loadGameData(true);	
-                alert("登录成功，存档已自动加载！");
+                // 登录成功后，loadGameData 会自动被触发
+                alert("登录成功，正在加载存档...");
             })
             .catch((error) => {
                 console.error("登录失败", error);
@@ -625,65 +422,59 @@ h3 {
             });
     }
 
-    // 保存游戏数据和 Tips 到 Firestore
     async function saveGameData(isInitialSave = false, isDateOnlySave = false) {
         if (!currentUser) {
             if (!isDateOnlySave) alert("请先登录或注册才能保存数据！");
             return;
         }
 
-        const userDocRef = doc(db, "users", currentUser.uid);	
-        
+        // 【安全检查】如果不是初始保存，也不是仅日期保存，且数据还没加载完，禁止保存！
+        if (!isInitialSave && !isDateOnlySave && !isDataLoaded) {
+            alert("⚠️ 危险：云端存档尚未加载完成！\n为了防止覆盖您的旧存档，请等待加载完毕，或刷新页面重试。");
+            return;
+        }
+
+        const userDocRef = doc(db, "users", currentUser.uid);
         if (typeof window.attr !== 'object' || window.attr === null) {
               console.error("无法保存：window.attr 不是一个有效的对象");
-              if (!isDateOnlySave) alert("数据保存失败，请刷新页面重试。");
               return;
         }
-        
+
         const dataToSave = {
             attributes: window.attr,
-            // 保存目标进度
-            goals: window.goal, 
+            goals: window.goal,
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
-            // 存储 ISO 格式的日期
-            lastDailyTipDate: window.lastDailyTipDate || "",	
+            lastDailyTipDate: window.lastDailyTipDate || "",
         };
 
         try {
-            await setDoc(userDocRef, dataToSave);
+            // 【安全保存】使用 merge: true 防止覆盖其他字段
+            await setDoc(userDocRef, dataToSave, { merge: true });
             if (!isInitialSave && !isDateOnlySave) {
-                alert("游戏数据和历史记录保存成功！");
+                alert("游戏数据保存成功！");
             }
         } catch (e) {
             console.error("数据写入失败：", e);
-            if (!isDateOnlySave) alert("数据保存失败，请检查网络连接或 Firebase 权限。");
+            if (!isDateOnlySave) alert("数据保存失败，请检查网络连接。");
         }
     }
-    
-    // 从 Firestore 读取游戏数据和 Tips
+
     async function loadGameData(isAutoLoad = false) {
         if (!currentUser) return;
-        const userDocRef = doc(db, "users", currentUser.uid);	
-        
+        const userDocRef = doc(db, "users", currentUser.uid);
         try {
             const docSnap = await getDoc(userDocRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                
-                // 1. 加载属性、目标和历史记录
-                if(data.attributes) {
-                    Object.assign(window.attr, data.attributes);	
-                }
-                // 加载目标进度，确保兼容旧存档（使用 || {}）
+                if(data.attributes) Object.assign(window.attr, data.attributes);
                 if(data.goals) {
                     Object.assign(window.goal, data.goals);
                 } else {
-                    // 如果旧存档没有 goals，则初始化为 0
                     Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
                 }
 
-                if (window.updateDisplay) window.updateDisplay(); // 更新显示（包括新的目标进度）
+                if (window.updateDisplay) window.updateDisplay();
 
                 if (data.tips && Array.isArray(data.tips)) {
                     displayTips(data.tips);
@@ -694,28 +485,30 @@ h3 {
                     document.getElementById('tipBox').prepend(welcomeMsg);
                 }
                 
-                // 2. 加载每日提示日期
                 window.lastDailyTipDate = data.lastDailyTipDate || "";
-
-                // 3. 检查并显示每日提示 (传入 true 表示是从加载存档过来的)
-                if (window.showDailyTip) window.showDailyTip(true);	
                 
+                // 【关键】标记数据已加载成功，此时才可以保存
+                isDataLoaded = true; 
+                console.log("存档加载完毕，解锁保存功能。");
+
+                if (window.showDailyTip) window.showDailyTip(true);
             } else if (!isAutoLoad) {
                 alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
+                // 即使没找到存档（新用户），也视为加载过程结束
+                isDataLoaded = true; 
             }
         } catch (e) {
             console.error("数据读取失败：", e);
+            isDataLoaded = false; // 加载失败，保持锁定
             if (!isAutoLoad) {
                 alert("数据读取失败，请检查网络连接。");
             }
         }
     }
-    
-    // *** 将模块内的函数暴露给全局作用域 ***
+
     window.registerWithEmail = registerWithEmail;
     window.loginWithEmail = loginWithEmail;
     window.saveGameData = saveGameData;
 </script>
-
 </body>
 </html>
