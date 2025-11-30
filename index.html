@@ -1,30 +1,151 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<title>修心养性记</title>
-<style>
-/* ================================================= */
-/* 【CSS 样式：最终版本】 */
-/* ================================================= */
-body { background: #f8f4ef; font-family: "宋体"; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; height: 100vh; padding: 20px;}
-#logContainer { width: 40%; display: flex; flex-direction: column; height: 100%;}
-#loginSection { display: flex; justify-content: center; gap: 10px; margin-top: 0; border: none; background: #f9e6ea; background-color: #f9e6ea; border: 1px solid #e4b6c2; color: #704848; padding: 10px 15px; border-radius: 10px 10px 0 0;}
-#tipBox { flex-grow: 1; background: #fff8f2; border: 2px solid #cbb8a5; border-radius: 0 0 10px 10px; padding: 15px; color: #5c4631; line-height: 1.8; font-size: 16px; box-shadow: 0 0 6px #e0d1be; overflow-y: auto;}
-#main { width: 50%; margin-left: 30px; display: flex; flex-direction: column; gap: 8px;}
-button { background: #f9e6ea; border: none; padding: 2px 7px; border-radius: 8px; cursor: pointer; font-size: 14px;}
-button:hover { background: #d7c1a8;}
-.section { background: #fffdf8; border: 1px solid #d2c0a8; border-radius: 3px; padding: 15px;}
-#scoreBoard { font-weight: bold; color: #4b3823; margin-bottom: 5px;}
-#attrBoard { background: #fefaf5; border: 1px solid #d6c4aa; border-radius: 10px; padding: 10px; margin-bottom: 8px; font-size: 15px; color: #5c4631;}
-.attr-line { display: flex; justify-content: space-between; padding: 2px 0;}
-h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
-#goalBoard { background: #fdf5f5; border: 1px dashed #d6b4b4; border-radius: 10px; padding: 10px; margin-bottom: 8px; font-size: 15px; color: #8b5757; }
-#goalBoard h4 { margin: 0 0 5px 0; font-size: 16px; color: #a04040;}
-</style>
+    <meta charset="UTF-8">
+    <title>修心养性记</title>
+    <style>
+        /* ================================================= */
+        /* 【CSS 样式：最终版本】 */
+        /* ================================================= */
+        body {
+            background: #f8f4ef;
+            font-family: "宋体";
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        #logContainer {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #loginSection {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 0;
+            border: none;
+            background: #f9e6ea;
+            background-color: #f9e6ea;
+            border: 1px solid #e4b6c2;
+            color: #704848;
+            padding: 10px 15px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        #tipBox {
+            flex-grow: 1;
+            background: #fff8f2;
+            border: 2px solid #cbb8a5;
+            border-radius: 0 0 10px 10px;
+            padding: 15px;
+            color: #5c4631;
+            line-height: 1.8;
+            font-size: 16px;
+            box-shadow: 0 0 6px #e0d1be;
+            overflow-y: auto;
+        }
+
+        #main {
+            width: 50%;
+            margin-left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        button {
+            background: #f9e6ea;
+            border: none;
+            padding: 2px 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #d7c1a8;
+        }
+
+        .section {
+            background: #fffdf8;
+            border: 1px solid #d2c0a8;
+            border-radius: 3px;
+            padding: 15px;
+        }
+
+        #scoreBoard {
+            font-weight: bold;
+            color: #4b3823;
+            margin-bottom: 5px;
+        }
+
+        #attrBoard {
+            background: #fefaf5;
+            border: 1px solid #d6c4aa;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #5c4631;
+        }
+
+        .attr-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 0px 0 7px;
+            padding-left: 10px;
+        }
+        
+        /* 长期任务板样式 */
+        .goal-task {
+             background: #fdf5f5;
+            border: 1px dashed #d6b4b4;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #8b5757;
+        }
+
+        .goal-task h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #a04040;
+        }
+        
+        /* 称号样式 */
+        .title-item {
+            padding: 5px 0;
+            border-bottom: 1px dotted #e0d1be;
+            color: #5c4631;
+        }
+
+        .title-item.unlocked {
+            font-weight: bold;
+            color: #a04040;
+        }
+
+        .title-item .condition {
+            font-size: 13px;
+            color: #8b5757;
+            display: block;
+            margin-top: 2px;
+        }
+    </style>
 </head>
 <body>
-
 <div id="logContainer">
     <div id="loginSection">
         <button onclick="registerWithEmail()">注册</button>
@@ -33,7 +154,6 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
     </div>
     <div id="tipBox" class="tip-content"></div>
 </div>
-
 <div id="main">
     <div id="scoreBoard">当前等级：婉女　总积分：0</div>
     <div id="attrBoard">
@@ -45,12 +165,27 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         <div class="attr-line"><span>📜 悟性：</span><span id="wisdomVal">0</span></div>
     </div>
 
-    <div id="goalBoard">
-        <h4>🎯 目标：西学入道</h4>
-        <div id="westernMedTitleDisplay"></div>
+    <div class="goal-task">
+        <h4>📜 长期任务：西学入道</h4>
+        <div id="westernMedTitleDisplay" style="color:#5c4631;">
+            【医者使命】：西方医学自海路传入，其疗效令人震惊。你心忧苍生疾苦，决意放下成见，潜心钻研西医解剖与诊疗之法，以求得全能医术，护一方平安。
+        </div>
         <div id="westernMedGoalDisplay"></div>
     </div>
 
+    <div class="goal-task">
+        <h4>📚 长期任务：岐黄承道</h4>
+        <div id="chineseMedTitleDisplay" style="color:#5c4631;">
+            【传承之责】：中华医道博大精深，蕴含济世养生之法。你潜心研习古籍，从经典中汲取智慧，立志继承医术衣钵。
+        </div>
+        <div id="chineseMedGoalDisplay"></div>
+    </div>
+
+    <div class="section">
+        <h3>🏆 称号收藏</h3>
+        <div id="titleCollectionDisplay" style="margin-top: 5px;">
+            </div>
+    </div>
     <div class="section">
         <h3>📖 学习</h3>
         <select id="subject">
@@ -64,13 +199,26 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         <button onclick="study()">修习</button>
         <button onclick="noStudy()">偷懒一日</button>
     </div>
+    
+     <div class="section">
+        <h3>📘 研读医籍</h3>
+        <select id="chineseBook">
+            <option>《马氏温灸法》</option>
+            <option>《中医美容皮肤科学》</option>
+            <option>《图解针灸甲乙经》</option>
+            <option>《钩沉索隐》</option>
+            <option>《脉诊一学就会》</option>
+        </select>
+        <input id="readHour" type="number" placeholder="小时" min="0" style="width:50px;">时
+        <input id="readMin" type="number" placeholder="分钟" min="0" style="width:60px;">分
+        <button onclick="readChineseBook()">研读</button>
+    </div>
 
     <div class="section">
         <h3>🥣 饮食</h3>
         <button onclick="eat('健康')">膳食清淡</button>
         <button onclick="eat('垃圾')">油炸奶茶泡面</button>
     </div>
-
     <div class="section">
         <h3>💪 运动</h3>
         <button onclick="exercise('持重锻体')">持重锻体（举哑铃）</button>
@@ -78,39 +226,80 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         <button onclick="exercise('舒筋活络')">舒筋活络（拉伸）</button>
         <button onclick="exercise('舞动风华')">舞动风华（健身操）</button>
     </div>
-
+    
     <div class="section">
         <h3>🏡 日常</h3>
-        <button onclick="cook()">烹饪膳食</button>
-        <button onclick="clean()">打扫房间</button>
+        <button onclick="distractionControl()">📺 远离杂念</button>
+        <button onclick="restControl()">🧘🏻‍♀️ 调息静坐</button>
+        <span style="font-weight: bold;">打扫整理：</span>
+        <input id="cleanHour" type="number" placeholder="小时" min="0" style="width:50px;">时
+        <input id="cleanMin" type="number" placeholder="分钟" min="0" style="width:60px;">分
+        <button onclick="clean()">动手整理</button>
     </div>
-
     <div class="section">
         <h3>🪞 仪容</h3>
         <button onclick="groom('化妆')">施粉黛</button>
         <button onclick="groom('刷牙')">晨起盥洗</button>
         <button onclick="groom('洗澡')">沐浴更衣</button>
     </div>
-
     <div class="section">
         <h3>🕉️ 念经</h3>
         <button onclick="chant()">念经修行</button>
         <button onclick="noChant()">怠慢修行</button>
     </div>
 </div>
-
 <script>
     // 1. 定义全局属性对象
     window.attr = { health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0 };
-    
+
     // 2. 定义全局目标/状态对象
     window.goal = {
-        westernMedStudyHours: 0, 
-        rareTitle: "" 
+        westernMedStudyHours: 0,
+        chineseMedStudyHours: 0, // 中医长期任务进度
+        rareTitle: "" // 当前佩戴的称号
     };
     // 目标常量
     const WESTERN_MED_GOAL = 50;
-    const RARE_TITLE_NAME = "★ 天涯医女 ★";
+    const CHINESE_MED_GOAL = 50; 
+    const RARE_TITLE_WEST = "★ 天涯医女 ★"; // 西医最高称号
+    const RARE_TITLE_CHINESE = "🌟 承道大医 🌟"; // 中医最高称号
+
+    // 3. 称号数据结构
+    window.titles = {
+        // 记录已解锁的称号列表
+        unlocked: [], 
+        // 所有称号的定义
+        definitions: [
+            // 西医长期任务称号
+            { 
+                name: RARE_TITLE_WEST, 
+                desc: "学贯中西，心怀天下，以医济世。", 
+                conditionKey: 'westernMedStudyHours', 
+                conditionValue: WESTERN_MED_GOAL
+            },
+            // 中医长期任务称号 
+             { 
+                name: RARE_TITLE_CHINESE, 
+                desc: "穷极岐黄之术，得天地人和之真谛。", 
+                conditionKey: 'chineseMedStudyHours', 
+                conditionValue: CHINESE_MED_GOAL
+            },
+            // 整洁属性称号
+            {
+                name: "🌸 优雅佳人 🌸",
+                desc: "举止得体，仪容整洁，社会交际的楷模。",
+                conditionKey: 'tidiness',
+                conditionValue: 50
+            },
+            // 体力属性称号 (磐石之志)
+            {
+                name: "⛰️ 磐石之志 ⛰️",
+                desc: "身强体壮，意志坚定，体力与健康的极限。",
+                conditionKey: 'stamina',
+                conditionValue: 50
+            }
+        ]
+    };
 
     // 工具函数
     function getSyncDate() {
@@ -142,18 +331,72 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         return "婉女";
     }
     
+    function updateTitleCollectionDisplay() {
+        const container = document.getElementById('titleCollectionDisplay');
+        container.innerHTML = '';
+
+        window.titles.definitions.forEach(title => {
+            const isUnlocked = window.titles.unlocked.includes(title.name);
+            const item = document.createElement('div');
+            item.className = 'title-item' + (isUnlocked ? ' unlocked' : '');
+            
+            let currentValue;
+            // 检查是属性还是长期目标
+             if (window.attr.hasOwnProperty(title.conditionKey)) {
+                currentValue = window.attr[title.conditionKey];
+            } else if (window.goal.hasOwnProperty(title.conditionKey)) {
+                currentValue = window.goal[title.conditionKey];
+            } else {
+                return; 
+            }
+
+            const displayValue = currentValue.toFixed(1);
+            
+            if (isUnlocked) {
+                item.innerHTML = `
+                    ${title.name} 
+                    <span class="condition" style="color:#a04040;"> (已解锁) </span>
+                `;
+            } else {
+                item.innerHTML = `
+                    ${title.name} 
+                    <span class="condition">(未解锁) 进度: ${displayValue} / ${title.conditionValue}</span>
+                `;
+            }
+            container.appendChild(item);
+        });
+
+        if (container.children.length === 0) {
+            container.innerText = "（尚无称号记录）";
+        }
+    }
+
+
     function updateGoalDisplay(){
-        const currentHours = window.goal.westernMedStudyHours;
-        const goalHours = WESTERN_MED_GOAL;
-        const display = document.getElementById('westernMedGoalDisplay');
-        const titleDisplay = document.getElementById('westernMedTitleDisplay');
+        // 西学入道
+        const currentW = window.goal.westernMedStudyHours;
+        const goalW = WESTERN_MED_GOAL;
+        const displayW = document.getElementById('westernMedGoalDisplay');
         
-        if(window.goal.rareTitle === RARE_TITLE_NAME){
-            titleDisplay.innerHTML = `<span style="color:red; font-weight:bold;">稀有称号：${RARE_TITLE_NAME} (已获得)</span>`;
-            display.innerText = `西医学进度：已达成（${currentHours.toFixed(2)} / ${goalHours} 小时）`;
+        if(currentW >= goalW) {
+             displayW.innerText = `西医学进度：已达成目标（${currentW.toFixed(2)} / ${goalW} 小时）`;
+             document.getElementById('westernMedTitleDisplay').style.color = '#a04040';
         } else {
-            titleDisplay.innerText = `稀有称号：${RARE_TITLE_NAME} (未获得)`; 
-            display.innerText = `西医学进度：${Math.min(currentHours, goalHours).toFixed(2)} / ${goalHours} 小时`;
+             displayW.innerText = `西医学进度：${Math.min(currentW, goalW).toFixed(2)} / ${goalW} 小时`;
+             document.getElementById('westernMedTitleDisplay').style.color = '#5c4631';
+        }
+
+        // 岐黄承道
+        const currentC = window.goal.chineseMedStudyHours;
+        const goalC = CHINESE_MED_GOAL;
+        const displayC = document.getElementById('chineseMedGoalDisplay');
+        
+        if(currentC >= goalC) {
+             displayC.innerText = `中医研读进度：已达成目标（${currentC.toFixed(2)} / ${goalC} 小时）`;
+             document.getElementById('chineseMedTitleDisplay').style.color = '#a04040';
+        } else {
+             displayC.innerText = `中医研读进度：${Math.min(currentC, goalC).toFixed(2)} / ${goalC} 小时`;
+             document.getElementById('chineseMedTitleDisplay').style.color = '#5c4631';
         }
     }
 
@@ -170,18 +413,19 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         document.getElementById('mindVal').innerText = window.attr.mind.toFixed(1);
         document.getElementById('wisdomVal').innerText = window.attr.wisdom.toFixed(1);
         updateGoalDisplay();
+        updateTitleCollectionDisplay(); 
     }
     window.updateDisplay = updateDisplay;
 
     function addTip(text){
         const tipBox = document.getElementById('tipBox');
         const p = document.createElement('div');
-        const date = getDisplayDate();  
+        const date = getDisplayDate();
         p.innerText = `[${date}] ${text}`;
         tipBox.prepend(p);
     }
     window.addTip = addTip;
-    
+
     window.lastDailyTipDate = "";
 
     function showDailyTip(fromLoadGame = false) {
@@ -189,7 +433,7 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         const todayDisplayDate = getDisplayDate();
         const dailyTip = "🌸 清晨微光，静候修行始。";
         const tipBox = document.getElementById('tipBox');
-        
+
         if (window.lastDailyTipDate !== todaySyncDate) {
             const p = document.createElement('div');
             p.innerText = `[${todayDisplayDate}] ${dailyTip}`;
@@ -199,7 +443,7 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
             if (window.saveGameData) {
                 window.saveGameData(true, true);
             }
-        }   
+        }
         else if (fromLoadGame && tipBox.children.length === 0) {
             addTip("🙏 存档加载完毕，继续您的修心之旅。");
         }
@@ -207,44 +451,137 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
     window.showDailyTip = showDailyTip;
 
     updateDisplay();
-    window.addEventListener('load', () => showDailyTip(false)); 
-    
-    function checkWesternMedGoal() {
-        if (window.goal.westernMedStudyHours >= WESTERN_MED_GOAL && window.goal.rareTitle === "") {
-            window.goal.rareTitle = RARE_TITLE_NAME;
-            addTip(`🎉 **恭喜！您已成功完成西学入道 ${WESTERN_MED_GOAL} 小时研习，获得稀有称号【${RARE_TITLE_NAME}】！**`);
+    window.addEventListener('load', () => showDailyTip(false));
+
+
+    function checkTitleUnlock() {
+        let newTitleUnlocked = false;
+        
+        window.titles.definitions.forEach(title => {
+            const isUnlocked = window.titles.unlocked.includes(title.name);
+            
+            if (!isUnlocked) {
+                let currentValue;
+                // 获取当前属性/长期任务值
+                if (window.attr.hasOwnProperty(title.conditionKey)) {
+                    currentValue = window.attr[title.conditionKey];
+                } else if (window.goal.hasOwnProperty(title.conditionKey)) {
+                    currentValue = window.goal[title.conditionKey];
+                } else {
+                    return; 
+                }
+
+                if (currentValue >= title.conditionValue) {
+                    window.titles.unlocked.push(title.name);
+                    
+                    // 自动佩戴稀有称号
+                    if (title.name === RARE_TITLE_WEST || title.name === RARE_TITLE_CHINESE) {
+                        window.goal.rareTitle = title.name;
+                    }
+                    
+                    addTip(`🎉 **恭喜！您已解锁新称号【${title.name}】！**`);
+                    newTitleUnlocked = true;
+                }
+            }
+        });
+
+        if (newTitleUnlocked) {
+            updateDisplay();
         }
     }
+
+    // =========================================================
+    // 【核心逻辑函数】
+    // =========================================================
 
     function study(){
         const subject = document.getElementById('subject').value;
         let hour = parseFloat(document.getElementById('studyHour').value) || 0;
         let min = parseFloat(document.getElementById('studyMin').value) || 0;
         let totalHour = hour + min/60;
-        if(totalHour <= 0){ addTip("无心于书卷，时光悄然溜走……"); return; }
-        let gain = totalHour * 3;
+
+        if(totalHour <= 0){
+            addTip("无心于书卷，时光悄然溜走……");
+            return;
+        }
+
+        let gain = totalHour * 2;
+        let staminaCost = totalHour * 1.5;
+
+        if (window.attr.stamina < staminaCost) {
+            addTip(`体力不足！研习 ${totalHour.toFixed(1)} 小时需 ${staminaCost.toFixed(1)} 点体力，请先休息或锻炼。`);
+            return;
+        }
+
+        window.attr.stamina -= staminaCost;
         window.attr.wisdom += gain;
         window.attr.will += gain * 0.5;
+        
+        let studyTips;
+
         if (subject === '西医学') {
             window.goal.westernMedStudyHours += totalHour;
-            checkWesternMedGoal();
+            // 长期任务背景提示
+            studyTips = [
+                `你翻阅着泛黄的西医教材，字里行间皆是新大陆的知识。悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}，体力－${staminaCost.toFixed(1)}。`,
+                `窗外是中式庭院，案前是西洋医典，中西融合的道路艰难而漫长。悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}，体力－${staminaCost.toFixed(1)}。`,
+                `为求济世之道，你埋头苦读。那句“医术不分中西，唯济世为大”在你心中回荡。悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}，体力－${staminaCost.toFixed(1)}。`
+            ];
+        } else {
+            studyTips = [
+                `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}，体力－${staminaCost.toFixed(1)}。`,
+                `轻启书卷，春风拂面，研习《${subject}》有成，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}，体力－${staminaCost.toFixed(1)}。`
+            ];
         }
-        const studyTips = [
-            `灯下挑灯研读《${subject}》，笔墨生香，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-            `轻启书卷，春风拂面，研习《${subject}》有成，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-            `夜深灯火，倩影研读，《${subject}》如诗如画，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`,
-            `窗外月光如水，桌上书香扑鼻，《${subject}》中的奥秘渐渐明了，悟性＋${gain.toFixed(1)}，意志＋${(gain*0.5).toFixed(1)}。`
-        ];
+        
         addTip(studyTips[Math.floor(Math.random() * studyTips.length)]);
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.study = study;
+
+    // 研读中医书籍的函数
+    function readChineseBook() {
+        const bookName = document.getElementById('chineseBook').value;
+        let hour = parseFloat(document.getElementById('readHour').value) || 0;
+        let min = parseFloat(document.getElementById('readMin').value) || 0;
+        let totalHour = hour + min/60;
+
+        if(totalHour <= 0){
+            addTip("心神不宁，研读徒劳。");
+            return;
+        }
+
+        // 中医研读注重心性
+        let wisdomGain = totalHour * 1.8;
+        let mindGain = totalHour * 1.5; 
+        let staminaCost = totalHour * 1.2; 
+
+        if (window.attr.stamina < staminaCost) {
+            addTip(`体力不足！研读 ${totalHour.toFixed(1)} 小时需 ${staminaCost.toFixed(1)} 点体力。`);
+            return;
+        }
+
+        window.attr.stamina -= staminaCost;
+        window.attr.wisdom += wisdomGain;
+        window.attr.mind += mindGain;
+        window.goal.chineseMedStudyHours += totalHour; // 增加长期任务进度
+
+        const tip = `焚香静坐，研读《${bookName}》${totalHour.toFixed(1)}小时。悟性＋${wisdomGain.toFixed(1)}，心性＋${mindGain.toFixed(1)}，体力－${staminaCost.toFixed(1)}。`;
+        
+        addTip(tip);
+        updateDisplay();
+        checkTitleUnlock(); 
+    }
+    window.readChineseBook = readChineseBook;
+
 
     function noStudy(){
         window.attr.will -= 1;
         window.attr.wisdom -= 1;
         addTip("一日偷懒，书卷蒙尘，悟性－1，意志－1。");
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.noStudy = noStudy;
 
@@ -257,6 +594,7 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
             addTip("油炸奶茶泡面入腹，脾胃不适，健康－2。");
         }
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.eat = eat;
 
@@ -278,28 +616,62 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
             tip = [ "筋骨舒展，心境清宁，健康＋1，心性＋0.5。", "轻轻舒展，身心愉悦，健康＋1，心性＋0.5。", "筋骨畅通，气血流动，健康＋1，心性＋0.5。" ];
         }
         if(type === "舞动风华"){
-            window.attr.stamina += 1.2;
-            window.attr.health += 0.7;
-            tip = [ "舞动风华，气血流畅，身心合一，体力＋1.2，健康＋0.7。", "舞步轻盈，神采奕奕，体力＋1.2，健康＋0.7。", "舞姿翩跹，气血顺畅，体力＋1.2，健康＋0.7。" ];
+            window.attr.stamina += 1.5;
+            window.attr.health += 1.0;
+            tip = [ "舞动风华，气血流畅，身心合一，体力＋1.5，健康＋1.0。", "舞步轻盈，神采奕奕，体力＋1.5，健康＋1.0。", "舞姿翩跹，气血顺畅，体力＋1.5，健康＋1.0。" ];
         }
         addTip(tip[Math.floor(Math.random() * tip.length)]);
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.exercise = exercise;
-
-    function cook(){
-        window.attr.health += 1;
-        window.attr.will += 0.5;
-        addTip("亲手烹调，香气四溢，食养身心，健康＋1，意志＋0.5。");
+    
+    // 【新增】远离杂念 (对应不看短视频/小说)
+    function distractionControl(){
+        window.attr.will += 1.5;
+        window.attr.mind += 1.5;
+        addTip("摒弃短视频和小说，心如止水，意志＋1.5，心性＋1.5。");
         updateDisplay();
+        checkTitleUnlock(); 
     }
-    window.cook = cook;
+    window.distractionControl = distractionControl;
 
-    function clean(){
-        window.attr.tidiness += 1;
-        window.attr.stamina += 0.5;
-        addTip("扫去尘埃，明窗净几，心境澄明，整洁＋1，体力＋0.5。");
+    // 【新增】调息静坐 (对应休息/放松)
+    function restControl(){
+        window.attr.stamina += 2.0;
+        window.attr.mind += 0.5;
+        addTip("调息静坐，放松身心，体力＋2.0，心性＋0.5。");
         updateDisplay();
+        checkTitleUnlock(); 
+    }
+    window.restControl = restControl;
+
+
+    // 修改后的 clean() 函数：加入时间量化
+    function clean(){
+        let hour = parseFloat(document.getElementById('cleanHour').value) || 0;
+        let min = parseFloat(document.getElementById('cleanMin').value) || 0;
+        let totalHour = hour + min/60;
+
+        if(totalHour <= 0){
+            addTip("房间略显凌乱，但你今日无心整理。");
+            return;
+        }
+
+        // 整理奖励计算
+        const tidinessGain = totalHour * 2.0;
+        const staminaGain = totalHour * 1.0;
+        const mindGain = totalHour * 0.5;
+
+        window.attr.tidiness += tidinessGain;
+        window.attr.stamina += staminaGain;
+        window.attr.mind += mindGain;
+
+        const tip = `你打扫整理了 ${totalHour.toFixed(1)} 小时。环境一新，心境澄明：整洁＋${tidinessGain.toFixed(1)}，体力＋${staminaGain.toFixed(1)}，心性＋${mindGain.toFixed(1)}。`;
+        
+        addTip(tip);
+        updateDisplay();
+        checkTitleUnlock(); 
     }
     window.clean = clean;
 
@@ -310,14 +682,16 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         if(type==="洗澡"){ window.attr.tidiness += 1; tip = "温泉轻雾，洗去疲乏，身心俱净，整洁＋1。"; }
         addTip(tip);
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.groom = groom;
 
     function chant(){
-        window.attr.mind += 0.5;
-        window.attr.will += 0.5;
-        addTip("静心诵经，心灵澄净，心性＋0.5，定力＋0.5。");
+        window.attr.mind += 1;
+        window.attr.will += 1;
+        addTip("静心诵经，心灵澄净，心性＋1，定力＋1。");
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.chant = chant;
 
@@ -326,11 +700,20 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         window.attr.mind -= 1;
         addTip("心浮气躁，念经不专，心性－1，定力－1。");
         updateDisplay();
+        checkTitleUnlock(); 
     }
     window.noChant = noChant;
-</script>
 
+
+    // =========================================================
+    // 【Firebase 模块】
+    // =========================================================
+</script>
 <script type="module">
+    // 请注意：
+    // 1. Firebase API Key 在此处提供，用于云端存储您的游戏进度。
+    // 2. 您需要使用【注册】功能来创建账号，并使用【保存进度】来上传数据。
+    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -348,7 +731,7 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
     const auth = getAuth();
     const db = getFirestore(app);
     let currentUser = null;
-    let isDataLoaded = false; // 【安全锁：标记数据是否已加载】
+    let isDataLoaded = false; 
 
     function getTipsFromDisplay() {
         const tipBox = document.getElementById('tipBox');
@@ -391,10 +774,11 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
                 currentUser = userCredential.user;
                 alert("注册成功，已为您保存初始进度！");
                 Object.assign(window.attr, {health: 0, stamina: 0, tidiness: 0, will: 0, mind: 0, wisdom: 0});
-                Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
+                Object.assign(window.goal, {westernMedStudyHours: 0, chineseMedStudyHours: 0, rareTitle: ""}); 
+                window.titles.unlocked = []; 
                 window.lastDailyTipDate = window.getSyncDate();
                 if (window.updateDisplay) window.updateDisplay();
-                isDataLoaded = true; // 注册新号，视为数据已就绪
+                isDataLoaded = true; 
                 saveGameData(true);
             })
             .catch((error) => {
@@ -413,7 +797,6 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 currentUser = userCredential.user;
-                // 登录成功后，loadGameData 会自动被触发
                 alert("登录成功，正在加载存档...");
             })
             .catch((error) => {
@@ -428,7 +811,6 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
             return;
         }
 
-        // 【安全检查】如果不是初始保存，也不是仅日期保存，且数据还没加载完，禁止保存！
         if (!isInitialSave && !isDateOnlySave && !isDataLoaded) {
             alert("⚠️ 危险：云端存档尚未加载完成！\n为了防止覆盖您的旧存档，请等待加载完毕，或刷新页面重试。");
             return;
@@ -439,17 +821,17 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
               console.error("无法保存：window.attr 不是一个有效的对象");
               return;
         }
-
+        
         const dataToSave = {
             attributes: window.attr,
             goals: window.goal,
+            unlockedTitles: window.titles.unlocked, 
             tips: getTipsFromDisplay(),
             lastSave: new Date().toLocaleString('zh-CN'),
             lastDailyTipDate: window.lastDailyTipDate || "",
         };
 
         try {
-            // 【安全保存】使用 merge: true 防止覆盖其他字段
             await setDoc(userDocRef, dataToSave, { merge: true });
             if (!isInitialSave && !isDateOnlySave) {
                 alert("游戏数据保存成功！");
@@ -469,10 +851,14 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
                 const data = docSnap.data();
                 if(data.attributes) Object.assign(window.attr, data.attributes);
                 if(data.goals) {
-                    Object.assign(window.goal, data.goals);
+                    // 确保加载所有目标，包括新的目标
+                    Object.assign(window.goal, {westernMedStudyHours: 0, chineseMedStudyHours: 0, rareTitle: ""}, data.goals);
                 } else {
-                    Object.assign(window.goal, {westernMedStudyHours: 0, rareTitle: ""});
+                    Object.assign(window.goal, {westernMedStudyHours: 0, chineseMedStudyHours: 0, rareTitle: ""});
                 }
+                
+                // 加载已解锁称号
+                window.titles.unlocked = data.unlockedTitles || [];
 
                 if (window.updateDisplay) window.updateDisplay();
 
@@ -483,23 +869,20 @@ h3 { font-size: 18px; margin: 0px 0 7px; padding-left: 10px;}
                     const welcomeMsg = document.createElement('div');
                     welcomeMsg.innerText = `[${new Date().toLocaleString('zh-CN')}] 欢迎回来，${currentUser.email}！未找到历史记录，请继续修行。`;
                     document.getElementById('tipBox').prepend(welcomeMsg);
-                }
-                
-                window.lastDailyTipDate = data.lastDailyTipDate || "";
-                
-                // 【关键】标记数据已加载成功，此时才可以保存
+                }              
+                window.lastDailyTipDate = data.lastDailyTipDate || "";                 
+
                 isDataLoaded = true; 
                 console.log("存档加载完毕，解锁保存功能。");
 
                 if (window.showDailyTip) window.showDailyTip(true);
             } else if (!isAutoLoad) {
                 alert("未找到您的游戏存档，请进行游戏操作后点击【保存进度】！");
-                // 即使没找到存档（新用户），也视为加载过程结束
                 isDataLoaded = true; 
             }
         } catch (e) {
             console.error("数据读取失败：", e);
-            isDataLoaded = false; // 加载失败，保持锁定
+            isDataLoaded = false; 
             if (!isAutoLoad) {
                 alert("数据读取失败，请检查网络连接。");
             }
